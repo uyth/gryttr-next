@@ -9,12 +9,6 @@ import { Container } from '@material-ui/core/';
 import { useBottomScrollListener } from 'react-bottom-scroll-listener';
 
 import BoulderListItem from '../components/BoulderListItem';
-import Position from '../components/Position';
-
-const DynamicComponentWithNoSSR = dynamic(
-  () => import('../components/Position'),
-  { ssr: false }
-)
 
 const gradeMapping = {
   "1": "3",
@@ -96,16 +90,11 @@ export default function SearchResults({ boulderData, hasSearched, longitude, lat
   const { state, dispatch } = globalState;
 
   useEffect(() => {
-    // if ('geolocation' in navigator) {
-    navigator.geolocation.watchPosition(position => {
-      console.log("FROM NAVIGATOR")
-      console.log(position.coords)
-      console.log("FROM STATE")
-      console.log(state.geoLocation)
-      // dispatch({ type: "UPDATE_GEO_LOCATION", latitude: position.coords.latitude, longitude: position.longitude })
-      dispatch({ type: "UPDATE_GEO_LOCATION" })
-    });
-    // }
+    if ('geolocation' in navigator) {
+      navigator.geolocation.watchPosition(position => {
+        dispatch({ type: "UPDATE_GEO_LOCATION", latitude: position.coords.latitude, longitude: position.coords.longitude })
+      });
+    }
   })
 
   // set up boulders
@@ -138,8 +127,6 @@ export default function SearchResults({ boulderData, hasSearched, longitude, lat
 
   return (
     <Container>
-      <DynamicComponentWithNoSSR />
-      <p>STATE: {state.geoLocation.longitude}, {state.geoLocation.latitude}</p>
       <Grid container>
         <Grid item>
           Antall treff: {boulders.length}

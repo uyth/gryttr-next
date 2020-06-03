@@ -67,8 +67,6 @@ const StateProvider = ({ children }) => {
         return { ...state, searchTerm: action.value };
       case "UPDATE_GRADE_VALUE":
         return { ...state, gradeValue: action.value };
-      case "UPDATE_GEO_LOCATION":
-        return { ...state, longitude: action.longitude, latitude: action.latitude }
       case "TOGGLE_DRAWER":
         return { ...state, drawerOpen: !state.drawerOpen };
       case "UPDATE_AREA":
@@ -76,7 +74,6 @@ const StateProvider = ({ children }) => {
       case "SHOW_MORE_BOULDERS":
         return { ...state, viewAmount: state.viewAmount + 20 };
       case "UPDATE_GEO_LOCATION":
-        return { ...state, geoLocation: {"latitude": 59.82167599999999, "longitude":  10.8524466}};
         return { ...state, geoLocation: {"longitude": action.longitude, "latitude": action.latitude} };
       default:
         throw new Error();
