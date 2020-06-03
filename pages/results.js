@@ -10,6 +10,8 @@ import { useBottomScrollListener } from 'react-bottom-scroll-listener';
 
 import BoulderListItem from '../components/BoulderListItem';
 
+import { distanceSteps } from '../src/distanceSteps';
+
 const gradeMapping = {
   "1": "3",
   "2": "3+",
@@ -123,7 +125,7 @@ export default function SearchResults({ boulderData, hasSearched, longitude, lat
     .filter((boulder) => state.gradeValue[0] <= swap(gradeMapping)[boulder.grade.title])
     .filter((boulder) => swap(gradeMapping)[boulder.grade.title] <= state.gradeValue[1])
   // filter on radius
-  // .filter(boulder => distances[state.distanceRadiusStep - 1].distanceInKm >= boulder.distanceInKm)
+  .filter(boulder => distanceSteps[state.distanceRadiusStep - 1].distanceInKm >= boulder.distanceInKm)
 
   return (
     <Container>

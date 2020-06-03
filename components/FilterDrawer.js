@@ -10,6 +10,7 @@ import { FormGroup } from '@material-ui/core/';
 import Typography from '@material-ui/core/Typography';
 import { Select, ListSubheader, MenuItem } from '@material-ui/core/';
 
+import { distanceSteps } from '../src/distanceSteps';
 
 function gradeValuetext(value, index) {
   return gradeMapping[value];
@@ -66,48 +67,6 @@ const gradeMarks = [
   },
 ]
 
-const distances = [
-  {
-    label: "100m",
-    distanceInKm: 0.1,
-    value: 1,
-  },
-  {
-    label: "200m",
-    distanceInKm: 0.2,
-    value: 2,
-  },
-  {
-    label: "500m",
-    distanceInKm: 0.5,
-    value: 3,
-  },
-  {
-    label: "1km",
-    distanceInKm: 1.0,
-    value: 4,
-  },
-  {
-    label: "2km",
-    distanceInKm: 2.0,
-    value: 5,
-  },
-  {
-    label: "5km",
-    distanceInKm: 5.0,
-    value: 6,
-  },
-  {
-    label: "10km",
-    distanceInKm: 10.0,
-    value: 7,
-  },
-  {
-    label: "Alle",
-    distanceInKm: 100000,
-    value: 8,
-  },
-];
 
 const gradeMapping = {
   "1": "3",
@@ -136,26 +95,39 @@ const gradeMapping = {
   "24": "8C+"
 };
 
-export default function FilterDrawer({
-  distanceRadiusStep, handleDistanceRadiusStepChange,
-}) {
+export default function FilterDrawer() {
 
   const globalState = useContext(store);
   const { state, dispatch } = globalState;
 
+  // gradeValue
   const [gradeValue, setGradeValue] = useState(state.gradeValue);
+
+  const handleGradeChange = (event, newValue) => {
+    setGradeValue(newValue);
+  }
+
+  const commitGradeValue = () => {
+    dispatch({ type: "UPDATE_GRADE_VALUE", value: gradeValue })
+  }
+
+  // distance radius step
+  const [distanceRadiusStep, setDistanceRadiusStep] = useState(state.distanceRadiusStep);
+
+  const handleDistanceRadiusStepChange = (event, newValue) => {
+    setDistanceRadiusStep(newValue);
+  }
+
+  const commitDistanceRadiusStep = () => {
+    dispatch({ type: "UPDATE_DISTANCE_RADIUS_STEP", value: distanceRadiusStep })
+  }
+
 
   const handleToggleDrawer = () => {
     dispatch({ type: "TOGGLE_DRAWER" })
   }
-  
-  const handleGradeChange = (event, newValue) => {
-    setGradeValue(newValue);
-  }
-  
-  const commitGradeValue = () => {
-    dispatch({ type: "UPDATE_GRADE_VALUE", value: gradeValue })
-  }
+
+
 
   const handleAreaChange = (event) => {
     let value = event.target.value;
@@ -201,13 +173,12 @@ export default function FilterDrawer({
           <FormGroup>
             <Typography variant="subtitle1">Avstand fra deg</Typography>
             <Slider
-              disabled
               value={distanceRadiusStep}
               onChange={handleDistanceRadiusStepChange}
-              // onChangeCommitted={handleSearch}
-              marks={distances}
+              onChangeCommitted={commitDistanceRadiusStep}
+              marks={distanceSteps}
               min={1}
-              max={distances.length}
+              max={distanceSteps.length}
               step={1}
             />
           </FormGroup>

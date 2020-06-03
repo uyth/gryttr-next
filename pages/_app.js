@@ -28,25 +28,9 @@ function FunctionalAppWrapper({ Component, pageProps }) {
       <ThemeProvider theme={theme}>
         <Box height={"100%"}>
           <CustomAppBar />
-          <StickySearchBar
-            sokeord={""}
-            handleSokeordChange={null}
-            handleSheearch={null}
-            handleOpenFilter={null}
-          />
+          <StickySearchBar />
           <Component  {...pageProps} />
-          <FilterDrawer
-            handleSearch={null}
-            handleClearSearch={null}
-            gradeValue={3}
-            handleGradeChange={null}
-            omrade={0}
-            handleOmradeChange={null}
-            distanceRadiusStep={10}
-            handleDistanceRadiusStepChange={null}
-            open={false}
-            onClose={null}
-          />
+          <FilterDrawer />
         </Box>
         <style jsx global>{`
         html,

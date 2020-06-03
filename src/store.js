@@ -1,13 +1,15 @@
 // store.js
 import React, { createContext, useReducer } from 'react';
 
+import { distanceSteps } from '../src/distanceSteps';
+
 const axios = require('axios').default;
 
 const initialState = {
   searchTerm: "",
   sortValue: 0,
   viewAmount: 10,
-  geoLocation: {"latitude": 0, "longitude": 0},
+  geoLocation: { "latitude": 0, "longitude": 0 },
   boulders: [],
   gradeValue: [1, 24],
   dangerValue: [1, 4],
@@ -17,7 +19,7 @@ const initialState = {
   overhang: true,
   activeBoulder: null,
   drawerOpen: false,
-  // distanceRadiusStep: distances.length,
+  distanceRadiusStep: distanceSteps.length,
 };
 const store = createContext(initialState);
 const { Provider } = store;
@@ -43,7 +45,7 @@ const StateProvider = ({ children }) => {
           })
         return state;
       case "UPDATE_BOULDERS":
-        return { ...state, boulders: action.value}
+        return { ...state, boulders: action.value }
       case "UPDATE_SEARCH_TERM":
         return { ...state, searchTerm: action.value };
       case "UPDATE_GRADE_VALUE":
@@ -55,7 +57,9 @@ const StateProvider = ({ children }) => {
       case "SHOW_MORE_BOULDERS":
         return { ...state, viewAmount: state.viewAmount + 20 };
       case "UPDATE_GEO_LOCATION":
-        return { ...state, geoLocation: {"longitude": action.longitude, "latitude": action.latitude} };
+        return { ...state, geoLocation: { "longitude": action.longitude, "latitude": action.latitude } };
+      case "UPDATE_DISTANCE_RADIUS_STEP":
+        return { ...state, distanceRadiusStep: action.value };
       default:
         throw new Error();
     };
