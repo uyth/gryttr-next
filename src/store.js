@@ -3,25 +3,6 @@ import React, { createContext, useReducer } from 'react';
 
 const axios = require('axios').default;
 
-// tokerud
-import Lysloypa from '../src/tokerud/lysloypa.json';
-import OstOgVest from '../src/tokerud/ost-og-vestkanten.json';
-import Tennisbanen from '../src/tokerud/tennisbanen.json';
-
-// ostmarka
-import Boler from '../src/ostmarka/boler.json';
-import Gronmo from '../src/ostmarka/gronmo.json';
-import Katteputten from '../src/ostmarka/katteputten.json';
-import NedreHellerud from '../src/ostmarka/nedre-hellerud.json';
-import OvreHellerud from '../src/ostmarka/ovre-hellerud.json';
-import Ostmarksetra from '../src/ostmarka/ostmarksetra.json';
-import Skoyenputten from '../src/ostmarka/skoyenputten.json';
-import Skullerud from '../src/ostmarka/skullerud.json';
-
-// nissedal
-import Haegefjell from '../src/nissedal/haegefjell.json';
-
-
 const initialState = {
   searchTerm: "",
   sortValue: 0,
