@@ -124,8 +124,17 @@ export default function SearchResults({ boulderData, hasSearched, longitude, lat
     .filter((boulder) => state.searchTerm ? boulder.title.toLowerCase().match(state.searchTerm.toLocaleLowerCase()) : true)
     .filter((boulder) => state.gradeValue[0] <= swap(gradeMapping)[boulder.grade.title])
     .filter((boulder) => swap(gradeMapping)[boulder.grade.title] <= state.gradeValue[1])
-  // filter on radius
-  .filter(boulder => distanceSteps[state.distanceRadiusStep - 1].distanceInKm >= boulder.distanceInKm)
+    // filter on radius
+    .filter(boulder => distanceSteps[state.distanceRadiusStep - 1].distanceInKm >= boulder.distanceInKm)
+    .sort((a, b) => {
+      if (state.sortValue == 0) {
+        return compareDistance(a.distanceInKm, b.distanceInKm);
+      } else if (sortValue == 1) {
+        return compareGrade(a.grade.title, b.grade.title);
+      } else if (sortValue == 2) {
+        return compareName(a.title.toUpperCase(), b.title.toUpperCase());
+      }
+    })
 
   return (
     <Container>
