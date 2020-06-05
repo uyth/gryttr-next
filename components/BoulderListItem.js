@@ -1,10 +1,6 @@
 import React from 'react';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Chip from '@material-ui/core/Chip';
@@ -17,41 +13,21 @@ import { Box } from '@material-ui/core/';
 import { Link } from 'next';
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    margin: theme.spacing(1, 1),
+    textAlign: "left",
+    display: "flex",
+  },
   chipContainer: {
     display: 'flex',
     justifyContent: 'flex-start',
     flexWrap: 'wrap',
   },
-  CardActions: {
-    justifyContent: "flex-end",
-  },
-  Card: {
-    margin: theme.spacing(1, 1),
-    textAlign: "left"
-  },
-  CardImage: {
-    height: 375,
-  },
-  CardImageMedium: {
-    height: 200,
-  },
-  CardImageSmall: {
-    height: 140,
-  },
-  List: {
-    margin: theme.spacing(1, 1),
-    textAlign: "left",
-    display: "flex",
-  },
-  ListContent: {
-    display: "flex",
-    flexDirection: "column",
-  },
-  ListImage: {
+  SmallImage: {
     width: 134,
     height: 134,
   },
-  ListBigImage: {
+  BigImage: {
     width: 170,
     height: 170,
   }
@@ -75,54 +51,55 @@ function BoulderListItem({ image, title, grade, id, distanceInKm, steepness, tim
   const classes = useStyles();
   const theme = useTheme();
   const smallAndUp = useMediaQuery(theme.breakpoints.up('sm'));
-  const mediumAndUp = useMediaQuery(theme.breakpoints.up('md'));
-
-  const chipContainer = <Grid spacing={1} container className={classes.chipContainer}>
-    <Grid item><Chip color="primary" size="small"
-      label={steepness} /></Grid>
-    <Grid item><Chip color="primary" size="small"
-      label={timeToDry} /></Grid>
-    <Grid item><Chip color="primary" size="small"
-      label={danger} /></Grid>
-    <Grid item><Chip color="secondary" size="small"
-      label={"Land"} /></Grid>
-    <Grid item><Chip color="secondary" size="small"
-      label={"By"} /></Grid>
-    <Grid item><Chip color="secondary" size="small"
-      label={"Samling"} /></Grid>
-  </Grid>
-
-  const buttons = <div>
-    <ButtonGroup>
-      <Button size="small" variant="outlined" color="primary" onClick={() => { handleOpenBoulderInMap(boulder) }} component={Link} href="/map"><MapIcon />&nbsp;Kart</Button>
-      <Button size="small" variant="outlined" color="primary" href={"https://gryttr.com/bulder/" + id}>Gryttr</Button>
-    </ButtonGroup>
-  </div>
 
   const titleText = <Typography variant={smallAndUp ? "h5" : "h6"}><Box color="primary.main" display="inline" fontWeight="fontWeightBold">{grade}</Box> {title}</Typography>;
   const distanceText = <Typography variant="body1">{distanceValueText(distanceInKm)} unna!</Typography>;
 
   return (
-    <Card className={classes.List}>
-      <CardActionArea className={smallAndUp ? classes.ListBigImage : classes.ListImage} href={"https://gryttr.com/bulder/" + id}>
-        <CardMedia image={image["srcset"].split(", ")[2].split(" ")[0]} className={smallAndUp ? classes.ListBigImage : classes.ListImage} />
-      </CardActionArea>
-      <CardContent className={classes.ListContent}>
-        <Grid container direction="column" spacing={1}>
+    <Card className={classes.root}>
+      <a href={"https://gryttr.com/bulder/" + id} className={smallAndUp ? classes.BigImage : classes.SmallImage}>
+        <img
+          data-sizes="auto"
+          data-srcset={image["srcset"]}
+          width={smallAndUp ? 170 : 134}
+          className={"lazyload"}
+          alt={title}
+        />
+      </a>
+      <Grid container direction="column" spacing={1}>
+        <Box padding={2}>
           <Grid item>
             {titleText}
           </Grid>
           <Grid item>
-            {smallAndUp && chipContainer}
+            {smallAndUp &&
+              <Grid spacing={1} container className={classes.chipContainer}>
+                <Grid item><Chip color="primary" size="small"
+                  label={steepness} /></Grid>
+                <Grid item><Chip color="primary" size="small"
+                  label={timeToDry} /></Grid>
+                <Grid item><Chip color="primary" size="small"
+                  label={danger} /></Grid>
+                <Grid item><Chip color="secondary" size="small"
+                  label={"Land"} /></Grid>
+                <Grid item><Chip color="secondary" size="small"
+                  label={"By"} /></Grid>
+                <Grid item><Chip color="secondary" size="small"
+                  label={"Samling"} /></Grid>
+              </Grid>
+            }
           </Grid>
           <Grid item>
             {distanceText}
           </Grid>
           <Grid item>
-            {buttons}
+            <ButtonGroup>
+              <Button size="small" variant="outlined" color="primary" onClick={() => { handleOpenBoulderInMap(boulder) }} component={Link} href="/map"><MapIcon />&nbsp;Kart</Button>
+              <Button size="small" variant="outlined" color="primary" href={"https://gryttr.com/bulder/" + id}>Gryttr</Button>
+            </ButtonGroup>
           </Grid>
-        </Grid>
-      </CardContent>
+        </Box>
+      </Grid>
     </Card>
   )
 }

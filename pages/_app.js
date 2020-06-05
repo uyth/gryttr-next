@@ -1,6 +1,7 @@
 import React from 'react';
 import { StateProvider } from '../src/store.js';
 import App from 'next/app';
+import 'lazysizes';
 
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { Box, Container } from '@material-ui/core/';
