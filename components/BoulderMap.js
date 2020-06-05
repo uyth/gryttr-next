@@ -1,10 +1,12 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { store } from '../src/store.js';
 
 import { Map, Marker, Popup, TileLayer, ZoomControl, LayersControl } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-markercluster";
 import { Icon } from "leaflet";
 import { Grid, Typography, Box } from '@material-ui/core/';
+
+import { distanceSteps } from '../src/distanceSteps';
 
 const { BaseLayer } = LayersControl;
 
@@ -60,37 +62,68 @@ function swap(json) {
   return ret;
 }
 
+function calculateDistance(lat1, lon1, lat2, lon2, unit) {
+  lat1 = Number(lat1)
+  lon1 = Number(lon1)
+  lat2 = Number(lat2)
+  lon2 = Number(lon2)
+  unit = "K"
+  var radlat1 = Math.PI * lat1 / 180
+  var radlat2 = Math.PI * lat2 / 180
+  var radlon1 = Math.PI * lon1 / 180
+  var radlon2 = Math.PI * lon2 / 180
+  var theta = lon1 - lon2
+  var radtheta = Math.PI * theta / 180
+  var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+  dist = Math.acos(dist)
+  dist = dist * 180 / Math.PI
+  dist = dist * 60 * 1.1515
+  if (unit === "K") { dist = dist * 1.609344 } // km
+  if (unit === "N") { dist = dist * 0.8684 }
+  return dist
+}
+
 export default function BoulderMap() {
   const globalState = useContext(store);
   const { state, dispatch } = globalState;
 
-  const [center, setCenter] = useState(["0","0"]);
+  useEffect(() => {
+    if ('geolocation' in navigator) {
+      navigator.geolocation.watchPosition(position => {
+        dispatch({ type: "UPDATE_GEO_LOCATION", latitude: position.coords.latitude, longitude: position.coords.longitude });
+        setUserLocation([position.coords.latitude, position.coords.longitude]);
+      });
+    }
+  })
+
+  // set up boulders
+  const [isInit, setHasInit] = useState(true);
+  if (isInit) {
+    setHasInit(false);
+    dispatch({ type: "FETCH_BOULDERS" });
+  }
+
+  const [userLocation, setUserLocation] = useState([state.geoLocation.latitude, state.geoLocation.longitude]);
+  const [boulderInFocus, setFocus] = useState(null);
 
   let boulders = state["boulders"]
     // add distance
-    // .map(boulder => ({
-    //   ...boulder,
-    //   distanceInKm: calculateDistance(boulder.latitude, boulder.longitude, state.latitude, state.longitude)
-    // })
-    // )
+    .map(boulder => ({
+      ...boulder,
+      distanceInKm: calculateDistance(boulder.latitude, boulder.longitude, state.geoLocation.latitude, state.geoLocation.longitude)
+    }))
     .filter((boulder) => state.searchTerm ? boulder.title.toLowerCase().match(state.searchTerm.toLocaleLowerCase()) : true)
     .filter((boulder) => state.gradeValue[0] <= swap(gradeMapping)[boulder.grade.title])
     .filter((boulder) => swap(gradeMapping)[boulder.grade.title] <= state.gradeValue[1])
-  // filter on radius
-  // .filter(boulder => distances[state.distanceRadiusStep - 1].distanceInKm >= boulder.distanceInKm)
+    // filter on radius
+    .filter(boulder => distanceSteps[state.distanceRadiusStep - 1].distanceInKm >= boulder.distanceInKm)
 
-  let activeBoulder = boulders[0];
-  let boulderInFocus = boulders[0];
-  if ('geolocation' in navigator) {
-    navigator.geolocation.watchPosition(position => {
-      setCenter([position.coords.latitude, position.coords.longitude])
-    });
-  }
+
   return (
     <Box width={"100%"} height={"100%"}>
       <Map
-        center={center}
-        zoom={activeBoulder ? 17 : 10}
+        center={userLocation}
+        zoom={10}
         zoomControl={false} // do not include default zoom control
         maxZoom={19}
       >
@@ -107,44 +140,42 @@ export default function BoulderMap() {
               attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             />
           </BaseLayer>
-          {/* {boulderInFocus && (
-          <Popup
-            position={[
-              boulderInFocus.latitude,
-              boulderInFocus.longitude,
-            ]}
-            onClose={() => {
-              setFocus(null);
-            }}
-          >
-            <Grid>
-              <a href={"https://www.gryttr.com/bulder/" + boulderInFocus.id}>
-                <Typography>{boulderInFocus.grade.title} {boulderInFocus.title}</Typography>
-                <img height="124" width="124" src={boulderInFocus["image"]["srcset"].split(", ")[1].split(" ")[0]} />
-              </a>
-            </Grid>
-          </Popup>
-        )} */}
-          {center &&
-            <Marker
-              key={0}
-              position={center}
-              icon={markerRed}
-            />
-          }
-          <MarkerClusterGroup>
-          {boulders.map(boulder => (
-            <Marker
-              key={boulder.id}
+          {boulderInFocus && (
+            <Popup
               position={[
-                boulder.latitude,
-                boulder.longitude
+                boulderInFocus.latitude,
+                boulderInFocus.longitude,
               ]}
-              onclick={() => setFocus(boulder)}
-              icon={markerBlue}
-            />
-          ))}
-        </MarkerClusterGroup>
+              onClose={() => {
+                setFocus(null);
+              }}
+            >
+              <Grid>
+                <a href={"https://www.gryttr.com/bulder/" + boulderInFocus.id}>
+                  <Typography>{boulderInFocus.grade.title} {boulderInFocus.title}</Typography>
+                  <img height="124" width="124" src={boulderInFocus["image"]["srcset"].split(", ")[1].split(" ")[0]} />
+                </a>
+              </Grid>
+            </Popup>
+          )}
+          <Marker
+            key={0}
+            position={userLocation}
+            icon={markerRed}
+          />
+          <MarkerClusterGroup>
+            {boulders.map(boulder => (
+              <Marker
+                key={boulder.id}
+                position={[
+                  boulder.latitude,
+                  boulder.longitude
+                ]}
+                // onclick={() => { setFocus(boulder) }}
+                icon={markerBlue}
+              />
+            ))}
+          </MarkerClusterGroup>
         </LayersControl>
         <ZoomControl position="bottomright" />
       </Map>
