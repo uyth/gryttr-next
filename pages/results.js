@@ -1,8 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { store } from '../src/store.js';
 
-import dynamic from 'next/dynamic'
-
 import Grid from '@material-ui/core/Grid';
 import { Container } from '@material-ui/core/';
 
@@ -87,7 +85,7 @@ function calculateDistance(lat1, lon1, lat2, lon2, unit) {
   return dist
 }
 
-export default function SearchResults({ boulderData, hasSearched, longitude, latitude, sortValue, viewAmount, viewType, handleOpenBoulderInMap, sortValues }) {
+export default function SearchResults() {
   const globalState = useContext(store);
   const { state, dispatch } = globalState;
 
