@@ -9,7 +9,7 @@ const initialState = {
   searchTerm: "",
   sortValue: 0,
   viewAmount: 10,
-  geoLocation: { "latitude": 0, "longitude": 0 },
+  geoLocation: { "latitude": 0, "longitude": 0, "accuracy": 0 },
   boulders: [],
   gradeValue: [1, 24],
   dangerValue: [1, 4],
@@ -57,7 +57,7 @@ const StateProvider = ({ children }) => {
       case "SHOW_MORE_BOULDERS":
         return { ...state, viewAmount: state.viewAmount + 20 };
       case "UPDATE_GEO_LOCATION":
-        return { ...state, geoLocation: { "longitude": action.longitude, "latitude": action.latitude } };
+        return { ...state, geoLocation: { "longitude": action.longitude, "latitude": action.latitude, "accuracy": action.accuracy } };
       case "UPDATE_DISTANCE_RADIUS_STEP":
         return { ...state, distanceRadiusStep: action.value };
       default:

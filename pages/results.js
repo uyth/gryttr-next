@@ -92,7 +92,7 @@ export default function SearchResults() {
   useEffect(() => {
     if ('geolocation' in navigator) {
       navigator.geolocation.watchPosition(position => {
-        dispatch({ type: "UPDATE_GEO_LOCATION", latitude: position.coords.latitude, longitude: position.coords.longitude })
+        dispatch({ type: "UPDATE_GEO_LOCATION", latitude: position.coords.latitude, longitude: position.coords.longitude, accuracy: position.coords.accuracy })
       });
     }
   })
@@ -136,6 +136,11 @@ export default function SearchResults() {
 
   return (
     <Container>
+      <div>
+        <p><b>Debugging:</b></p>
+        <p>Position: {state.geoLocation.latitude}, {state.geoLocation.longitude}</p>
+        <p>Accuracy: {state.geoLocation.accuracy}</p>
+      </div>
       <Grid container>
         <Grid item>
           Antall treff: {boulders.length}
