@@ -87,6 +87,13 @@ export default function SearchResults() {
   const globalState = useContext(store);
   const { state, dispatch } = globalState;
 
+  // set up boulders
+  const [isInit, setHasInit] = useState(true);
+  if (isInit) {
+    setHasInit(false);
+    dispatch({ type: "FETCH_BOULDERS" });
+  }
+
   useEffect(() => {
     if ('geolocation' in navigator) {
       navigator.geolocation.watchPosition(position => {
