@@ -94,7 +94,7 @@ export default function BoulderMap() {
   useEffect(() => {
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition(position => {
-        dispatch({ type: "UPDATE_GEO_LOCATION", latitude: position.coords.latitude, longitude: position.coords.longitude });
+        // dispatch({ type: "UPDATE_GEO_LOCATION", latitude: position.coords.latitude, longitude: position.coords.longitude });
         setUserLocation([position.coords.latitude, position.coords.longitude]);
       });
     }
