@@ -18,7 +18,7 @@ const initialState = {
   overhang: true,
   activeBoulder: null,
   drawerOpen: false,
-  distanceRadiusStep: distanceSteps.length,
+  distanceRadiusStep: Object.keys(distanceSteps).length,
 };
 const store = createContext(initialState);
 const { Provider } = store;
