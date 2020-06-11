@@ -76,7 +76,7 @@ export default function MapView() {
   const [userLocation, setUserLocation] = useState([0.0, 0.0]);
   useEffect(() => {
     if ('geolocation' in navigator) {
-      navigator.geolocation.getCurrentPosition(position => {
+      navigator.geolocation.watchPosition(position => {
         // dispatch({ type: "UPDATE_GEO_LOCATION", latitude: position.coords.latitude, longitude: position.coords.longitude });
         setUserLocation([position.coords.latitude, position.coords.longitude]);
       });
