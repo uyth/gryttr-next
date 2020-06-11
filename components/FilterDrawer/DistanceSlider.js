@@ -9,9 +9,7 @@ const distances = {
   3: { label: "250m", value: 0.250 },
   4: { label: "500m", value: 0.500 },
   5: { label: "1km", value: 1.0 },
-  6: { label: "2.5km", value: 2.5 },
-  7: { label: "10km", value: 10.0 },
-  8: { label: "Alle", value: 100000 },
+  6: { label: "Alle", value: 100000 },
 }
 
 export default function DistanceSlider() {
