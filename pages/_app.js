@@ -3,13 +3,15 @@ import { StateProvider } from '../src/store.js';
 import App from 'next/app';
 import 'lazysizes';
 
+import "antd/dist/antd.css";
+
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { Box, Container } from '@material-ui/core/';
 
 
 import CustomAppBar from '../components/CustomAppBar';
 import StickySearchBar from '../components/StickyBar';
-import FilterDrawer from '../components/FilterDrawer';
+import FilterDrawer from '../components/FilterDrawer/FilterDrawer';
 
 const theme = createMuiTheme({
   palette: {

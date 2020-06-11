@@ -16,33 +16,32 @@ import Skullerud from '../../src/ostmarka/skullerud.json';
 // nissedal
 import Haegefjell from '../../src/nissedal/haegefjell.json';
 
+
+const slugToBoulders = {
+  "boler": [...Boler["boulders"]],
+  "gronmo": [...Gronmo["boulders"]],
+  "katteputten": [...Katteputten["boulders"]],
+  "nedre-hellerud": [...NedreHellerud["boulders"]],
+  "ovre-hellerud": [...OvreHellerud["boulders"]],
+  "ostmarksetra": [...Ostmarksetra["boulders"]],
+  "skoyenputten": [...Skoyenputten["boulders"]],
+  "skullerud": [...Skullerud["boulders"]],
+  "lysloypa": [...Lysloypa["boulders"]],
+  "ost-og-vestkanten": [...OstOgVest["boulders"]],
+  "tennisbanne": [...Tennisbanen["boulders"]],
+  "haegefjell": [...Haegefjell["boulders"]],
+}
+
 export default (req, res) => {
-    let area = Number(req.query.area);
+    let areas = req.query.areas.split(",");
     let boulders = []
-    if (area === 1 || area === 0) {
-        boulders.push(
-          ...Boler["boulders"],
-          ...Gronmo["boulders"],
-          ...Katteputten["boulders"],
-          ...NedreHellerud["boulders"],
-          ...OvreHellerud["boulders"],
-          ...Ostmarksetra["boulders"],
-          ...Skoyenputten["boulders"],
-          ...Skullerud["boulders"],
-        )
-      }
-      if (area === 2 || area === 0) {
-        boulders.push(
-          ...Lysloypa["boulders"],
-          ...OstOgVest["boulders"],
-          ...Tennisbanen["boulders"],
-        )
-      }
-      if (area === 3 || area === 0) {
-        boulders.push(
-          ...Haegefjell["boulders"],
-        )
-      }
+    if (areas.length > 0) {
+      areas.map(area => {
+        if (slugToBoulders[area]) {
+          boulders.push(...slugToBoulders[area])
+        }
+      })
+    }
     res.statusCode = 200
     res.json({ boulders: boulders })
   }

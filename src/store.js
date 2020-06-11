@@ -13,7 +13,7 @@ const initialState = {
   boulders: [],
   gradeValue: [1, 24],
   dangerValue: [1, 4],
-  area: 0,
+  areas: [],
   slab: true,
   vertical: true,
   overhang: true,
@@ -36,7 +36,7 @@ const StateProvider = ({ children }) => {
             'Content-Type': 'application/json;charset=UTF-8'
           },
           params: {
-            area: state.area
+            areas: state.areas.join(",")
           }
         };
         axios(options)
@@ -53,7 +53,7 @@ const StateProvider = ({ children }) => {
       case "TOGGLE_DRAWER":
         return { ...state, drawerOpen: !state.drawerOpen };
       case "UPDATE_AREA":
-        return { ...state, area: action.value };
+        return { ...state, areas: action.value };
       case "SHOW_MORE_BOULDERS":
         return { ...state, viewAmount: state.viewAmount + 20 };
       case "UPDATE_GEO_LOCATION":
