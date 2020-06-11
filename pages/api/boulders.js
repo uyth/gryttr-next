@@ -32,17 +32,25 @@ const slugToBoulders = {
   "haegefjell": [...Haegefjell["boulders"]],
 }
 
-export default (req, res) => {
-    let areas = req.query.areas.split(",");
-    let boulders = []
-    if (areas.length > 0) {
-      areas.map(area => {
-        if (slugToBoulders[area]) {
-          boulders.push(...slugToBoulders[area])
-        }
-      })
+function getBouldersFromSlugs(slugs) {
+  return slugs.reduce((acc, slug) => {
+    if (slugToBoulders[slug]) {
+      acc.push(...slugToBoulders[slug]);
     }
-    res.statusCode = 200
-    res.json({ boulders: boulders })
+    return acc;
+  }, [])
+}
+
+export default (req, res) => {
+  let slugs = req.query.areas.split(",");
+  let boulders = []
+  if (slugs.length > 0) {
+    if (slugs[0] == "") {
+      slugs = Object.keys(slugToBoulders);
+    }
+    boulders = getBouldersFromSlugs(slugs);
   }
+  res.statusCode = 200
+  res.json({ boulders: boulders })
+}
   
