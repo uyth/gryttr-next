@@ -4,9 +4,7 @@ import { store } from '../src/store.js';
 import Grid from '@material-ui/core/Grid';
 import { Container } from '@material-ui/core/';
 
-import { useBottomScrollListener } from 'react-bottom-scroll-listener';
-
-import BoulderListItem from '../components/BoulderListItem';
+import BoulderList from '../components/BoulderList';
 
 import { distanceSteps } from '../src/distanceSteps';
 
@@ -97,22 +95,7 @@ export default function SearchResults() {
     }
   })
 
-  // set up boulders
-  const [isInit, setHasInit] = useState(true);
-  if (isInit) {
-    setHasInit(false);
-    dispatch({ type: "FETCH_BOULDERS" });
-  }
-
-  // scrolling logic
-  const showMoreBoulders = () => {
-    dispatch({ type: "SHOW_MORE_BOULDERS" });
-  }
-
-  useBottomScrollListener(showMoreBoulders);
-
   // filter boulders
-
   let boulders = state["boulders"]
     // add distance
     .map(boulder => ({
@@ -141,29 +124,9 @@ export default function SearchResults() {
         <p>Position: {state.geoLocation.latitude}, {state.geoLocation.longitude}</p>
         <p>Accuracy: {state.geoLocation.accuracy}</p>
       </div>
-      <Grid container>
-        <Grid item>
-          Antall treff: {boulders.length}
-        </Grid>
-        {boulders
-          .slice(0, state.viewAmount)
-          .map(boulder =>
-            <Grid item xs={12} key={boulder.id}>
-              <BoulderListItem
-                image={boulder["image"]}
-                title={boulder.title}
-                grade={boulder.grade.title}
-                id={boulder.id}
-                distanceInKm={boulder.distanceInKm}
-                steepness={"Bratthet"}
-                timeToDry={"Tørketid"}
-                danger={"Utsatthet"}
-                handleOpenBoulderInMap={null}
-                boulder={boulder}
-              />
-            </Grid>
-          )}
-      </Grid>
+      <p> Antall treff: {boulders.length}</p>
+      <BoulderList boulders={boulders}/>
+      <br/>
     </Container>
   )
 }

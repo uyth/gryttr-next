@@ -8,7 +8,6 @@ const axios = require('axios').default;
 const initialState = {
   searchTerm: "",
   sortValue: 0,
-  viewAmount: 10,
   geoLocation: { "latitude": 0, "longitude": 0, "accuracy": 0 },
   boulders: [],
   gradeValue: [1, 24],
@@ -54,8 +53,6 @@ const StateProvider = ({ children }) => {
         return { ...state, drawerOpen: !state.drawerOpen };
       case "UPDATE_AREA":
         return { ...state, areas: action.value };
-      case "SHOW_MORE_BOULDERS":
-        return { ...state, viewAmount: state.viewAmount + 20 };
       case "UPDATE_GEO_LOCATION":
         return { ...state, geoLocation: { "longitude": action.longitude, "latitude": action.latitude, "accuracy": action.accuracy } };
       case "UPDATE_DISTANCE_RADIUS_STEP":
