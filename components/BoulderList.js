@@ -53,8 +53,10 @@ export default function BoulderList({ boulders }) {
               </Col>
               <Col flex="120px">
                 <img
-                  src={boulder.image.src}
-                  srcset={boulder.image.srcset}
+                  data-sizes="auto"
+                  data-srcset={boulder.image["srcset"]}
+                  className="lazyload"
+                  alt={boulder.title}
                   width={120}
                   height={120}
                 />
