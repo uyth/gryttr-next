@@ -5,37 +5,27 @@ import 'lazysizes';
 
 import "antd/dist/antd.css";
 
-import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import { Box, Container } from '@material-ui/core/';
+import { Layout } from 'antd';
+const { Header, Footer, Sider, Content } = Layout;
 
-
-import CustomAppBar from '../components/CustomAppBar';
+import TitleBar from '../components/TitleBar';
 import StickySearchBar from '../components/StickyBar';
 import FilterDrawer from '../components/FilterDrawer/FilterDrawer';
 
-const theme = createMuiTheme({
-  palette: {
-    primary: {
-      main: '#1565c0',
-    },
-    secondary: {
-      main: '#ffc107',
-    },
-  },
-});
 
 function FunctionalAppWrapper({ Component, pageProps }) {
   
   return (
     <StateProvider>
-      <ThemeProvider theme={theme}>
-        <Box height={"100%"}>
-          <CustomAppBar />
+      <Layout style={{height: "100vh"}}>
+        <Header style={{zIndex: 1, background:"blue"}}><TitleBar /></Header>
+        <Content style={{background:"white"}}>
           <StickySearchBar />
           <Component  {...pageProps} />
-          <FilterDrawer />
-        </Box>
-        <style jsx global>{`
+        </Content>
+        <FilterDrawer />
+      </Layout>
+      <style jsx global>{`
         html,
         body {
           padding: 0;
@@ -45,11 +35,9 @@ function FunctionalAppWrapper({ Component, pageProps }) {
             Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue,
             sans-serif;
         }
-
         * {
           box-sizing: border-box;
         }
-
         .leaflet-container {
           position: fixed!important;
           top: 0;
@@ -60,7 +48,6 @@ function FunctionalAppWrapper({ Component, pageProps }) {
           height: 100%;
         }
       `}</style>
-      </ThemeProvider>
     </StateProvider>
   )
 }
