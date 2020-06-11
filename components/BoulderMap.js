@@ -1,12 +1,14 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect, useRef } from 'react';
 import { store } from '../src/store.js';
 
-import { Map, Marker, Popup, TileLayer, ZoomControl, LayersControl } from "react-leaflet";
+import { Map, Marker, Popup, TileLayer, ZoomControl, LayersControl, CircleMarker } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-markercluster";
-import { Icon } from "leaflet";
-import { Grid, Typography, Box } from '@material-ui/core/';
+import { LatLng, Icon } from "leaflet";
 
 import { distanceSteps } from '../src/distanceSteps';
+
+import { Button, Drawer, Typography } from "antd";
+const { Title } = Typography;
 
 const { BaseLayer } = LayersControl;
 
@@ -87,14 +89,18 @@ export default function BoulderMap() {
   const globalState = useContext(store);
   const { state, dispatch } = globalState;
 
+
+  const [userLocation, setUserLocation] = useState(new LatLng(0.0, 0.0));
   useEffect(() => {
     if ('geolocation' in navigator) {
-      navigator.geolocation.watchPosition(position => {
+      navigator.geolocation.getCurrentPosition(position => {
         dispatch({ type: "UPDATE_GEO_LOCATION", latitude: position.coords.latitude, longitude: position.coords.longitude });
         setUserLocation([position.coords.latitude, position.coords.longitude]);
       });
     }
   })
+
+  const [openSummary, setOpenSummary] = useState(false);
 
   // set up boulders
   const [isInit, setHasInit] = useState(true);
@@ -103,30 +109,88 @@ export default function BoulderMap() {
     dispatch({ type: "FETCH_BOULDERS" });
   }
 
-  const [userLocation, setUserLocation] = useState([state.geoLocation.latitude, state.geoLocation.longitude]);
   const [boulderInFocus, setFocus] = useState(null);
-
   let boulders = state["boulders"]
     // add distance
     .map(boulder => ({
       ...boulder,
-      distanceInKm: calculateDistance(boulder.latitude, boulder.longitude, state.geoLocation.latitude, state.geoLocation.longitude)
+      distanceInKm: calculateDistance(boulder.latitude, boulder.longitude, userLocation[0], userLocation[1])
     }))
+    // filter on searchterm
     .filter((boulder) => state.searchTerm ? boulder.title.toLowerCase().match(state.searchTerm.toLocaleLowerCase()) : true)
+    // filer on grade
     .filter((boulder) => state.gradeValue[0] <= swap(gradeMapping)[boulder.grade.title])
     .filter((boulder) => swap(gradeMapping)[boulder.grade.title] <= state.gradeValue[1])
     // filter on radius
     .filter(boulder => distanceSteps[state.distanceRadiusStep - 1].distanceInKm >= boulder.distanceInKm)
 
 
+  let boulderCountPerGrade = {
+    "3": 0,
+    "3+": 0,
+    "4": 0,
+    "4+": 0,
+    "5": 0,
+    "5+": 0,
+    "6A": 0,
+    "6A+": 0,
+    "6B": 0,
+    "6B+": 0,
+    "6C": 0,
+    "6C+": 0,
+    "7A": 0,
+    "7A+": 0,
+    "7B": 0,
+    "7B+": 0,
+    "7C": 0,
+    "7C+": 0,
+    "8A": 0,
+    "8A+": 0,
+    "8B": 0,
+    "8B+": 0,
+    "8C": 0,
+    "8C+": 0,
+  }
+
+  boulderCountPerGrade = boulders.reduce((counter, boulder) => {
+    counter[boulder.grade.title]++;
+    return counter;
+  }, boulderCountPerGrade)
+
   return (
-    <Box width={"100%"} height={"100%"}>
+    <>
       <Map
         center={userLocation}
-        zoom={10}
+        zoom={12}
         zoomControl={false} // do not include default zoom control
         maxZoom={19}
+        preferCanvas={true}
       >
+        <Marker position={userLocation} icon={markerRed}/>
+        {/* <MarkerClusterGroup> */}
+          {boulders
+            .map(boulder => (
+              <CircleMarker
+                key={boulder.id}
+                center={new LatLng(boulder.latitude, boulder.longitude)}
+                radius={10}
+                onclick={() => { setFocus(boulder) }}
+              />
+          ))}
+        {/* </MarkerClusterGroup> */}
+        {boulderInFocus && (
+          <Popup
+            position={new LatLng(boulderInFocus.latitude, boulderInFocus.longitude)}
+            onClose={() => {
+              setFocus(null);
+            }}
+          >
+            <a href={"https://www.gryttr.com/bulder/" + boulderInFocus.id}>
+              <Title level={4}>{boulderInFocus.grade.title} {boulderInFocus.title}</Title>
+              <img height="124" width="124" src={boulderInFocus["image"]["srcset"].split(", ")[1].split(" ")[0]} />
+            </a>
+          </Popup>
+        )}
         <LayersControl position="bottomright">
           <BaseLayer checked name="OpenStreetMap Mapnik">
             <TileLayer
@@ -140,45 +204,15 @@ export default function BoulderMap() {
               attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             />
           </BaseLayer>
-          {boulderInFocus && (
-            <Popup
-              position={[
-                boulderInFocus.latitude,
-                boulderInFocus.longitude,
-              ]}
-              onClose={() => {
-                setFocus(null);
-              }}
-            >
-              <Grid>
-                <a href={"https://www.gryttr.com/bulder/" + boulderInFocus.id}>
-                  <Typography>{boulderInFocus.grade.title} {boulderInFocus.title}</Typography>
-                  <img height="124" width="124" src={boulderInFocus["image"]["srcset"].split(", ")[1].split(" ")[0]} />
-                </a>
-              </Grid>
-            </Popup>
-          )}
-          <Marker
-            key={0}
-            position={userLocation}
-            icon={markerRed}
-          />
-          <MarkerClusterGroup>
-            {boulders.map(boulder => (
-              <Marker
-                key={boulder.id}
-                position={[
-                  boulder.latitude,
-                  boulder.longitude
-                ]}
-                // onclick={() => { setFocus(boulder) }}
-                icon={markerBlue}
-              />
-            ))}
-          </MarkerClusterGroup>
         </LayersControl>
         <ZoomControl position="bottomright" />
       </Map>
-    </Box>
+      <Button type="primary" shape="round" size="large" style={{bottom: "24px", left:"50vw", marginLeft:"-125px", width: "250px", position:"fixed"}} onClick={() => setOpenSummary(true)}>
+          Oppsummering ({boulders.length})
+      </Button>
+      <Drawer height="50vh" title="Oppsummering av treff" placement="bottom" visible={openSummary} onClose={() => setOpenSummary(false)}>
+        {Object.keys(boulderCountPerGrade).map(key => <p>{key}: {boulderCountPerGrade[key]}</p>)}        
+      </Drawer>
+    </>
   )
 }
