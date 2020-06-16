@@ -11,12 +11,24 @@ export default function Search() {
 
   const [query, setQuery] = useState("");
   const [options, setOptions] = useState([]);
+  const [userLocation, setUserLocation] = useState([0.0, 0.0, 0.0]);
 
   useEffect(() => {
     dispatch({ type: "UPDATE_QUERY", value: query });
     dispatch({ type: "FETCH_BOULDERS", query: query, areas: state.areas });
   }, [query])
 
+  useEffect(() => {
+    if ('geolocation' in navigator) {
+      navigator.geolocation.watchPosition(position => {
+        setUserLocation([position.coords.latitude, position.coords.longitude, position.coords.accuracy]);
+      });
+    }
+  }, [])
+
+  useEffect(() => {
+    dispatch({ type: "UPDATE_GEO_LOCATION", latitude: userLocation[0], longitude: userLocation[1], accuracy: userLocation[2] })
+  }, [userLocation])
 
   const handleChange = async query => {
     getQueryOptions(query);

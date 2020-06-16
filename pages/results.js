@@ -87,15 +87,6 @@ export default function SearchResults() {
   const globalState = useContext(store);
   const { state, dispatch } = globalState;
 
-
-  useEffect(() => {
-    if ('geolocation' in navigator) {
-      navigator.geolocation.watchPosition(position => {
-        dispatch({ type: "UPDATE_GEO_LOCATION", latitude: position.coords.latitude, longitude: position.coords.longitude, accuracy: position.coords.accuracy })
-      });
-    }
-  })
-
   // filter boulders
   let boulders = state["boulders"]
     // add distance
