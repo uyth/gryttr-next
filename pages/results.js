@@ -113,7 +113,7 @@ export default function SearchResults() {
     .filter((boulder) => state.gradeValue[0] <= swap(gradeMapping)[boulder.grade.title])
     .filter((boulder) => swap(gradeMapping)[boulder.grade.title] <= state.gradeValue[1])
     // filter on radius
-    .filter(boulder => distanceSteps[state.distanceRadiusStep-1].distanceInKm >= boulder.distanceInKm)
+    .filter(boulder => distanceSteps[state.distanceRadiusStep].distanceInKm >= boulder.distanceInKm)
     .sort((a, b) => {
       if (state.sortValue == 0) {
         return compareDistance(a.distanceInKm, b.distanceInKm);
