@@ -95,8 +95,6 @@ export default function MapView() {
       ...boulder,
       distanceInKm: calculateDistance(boulder.latitude, boulder.longitude, userLocation[0], userLocation[1])
     }))
-    // filter on searchterm
-    .filter((boulder) => state.searchTerm ? boulder.title.toLowerCase().match(state.searchTerm.toLocaleLowerCase()) : true)
     // filer on grade
     .filter((boulder) => state.gradeValue[0] <= swap(gradeMapping)[boulder.grade.title])
     .filter((boulder) => swap(gradeMapping)[boulder.grade.title] <= state.gradeValue[1])
