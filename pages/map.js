@@ -83,12 +83,6 @@ export default function MapView() {
     }
   })
 
-  const [isInit, setHasInit] = useState(true);
-  if (isInit) {
-    setHasInit(false);
-    dispatch({ type: "FETCH_BOULDERS" });
-  }
-
   let boulders = state["boulders"]
     // add distance
     .map(boulder => ({
