@@ -9,6 +9,7 @@ const initialState = {
   geoLocation: { "latitude": 0, "longitude": 0, "accuracy": 0 },
   boulders: [],
   loadingBoulders: false,
+  query: "",
   gradeValue: [1, 24],
   dangerValue: [1, 4],
   areas: [],
@@ -50,6 +51,8 @@ const StateProvider = ({ children }) => {
         return { ...state, drawerOpen: !state.drawerOpen };
       case "UPDATE_AREA":
         return { ...state, areas: action.value };
+      case "UPDATE_QUERY":
+        return { ...state, query: action.value };
       case "UPDATE_GEO_LOCATION":
         return { ...state, geoLocation: { "longitude": action.longitude, "latitude": action.latitude, "accuracy": action.accuracy } };
       case "UPDATE_DISTANCE_RADIUS_STEP":

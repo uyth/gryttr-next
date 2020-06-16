@@ -4,7 +4,7 @@ function getBouldersFromSlugs(slugs, query) {
   return slugs.reduce((acc, slug) => {
     if (slugToBoulders[slug]) {
       let boulders = slugToBoulders[slug]
-        .filter(boulder => boulderMatchesQuery(boulder.title, query))
+        .filter(boulder => query ? boulderMatchesQuery(boulder.title, query) : true)
       acc.push(...boulders);
     }
     return acc;

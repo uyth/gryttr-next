@@ -10,25 +10,27 @@ export default function CheckboxTree() {
   const { state, dispatch } = globalState;
 
   const [treeData, setTreeData] = useState([]);
+  const [expandedKeys, setExpandedKeys] = useState([]);
+  const [checkedKeys, setCheckedKeys] = useState([]);
+  const [selectedKeys, setSelectedKeys] = useState([]);
+  const [autoExpandParent, setAutoExpandParent] = useState(true);
+  
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchAreas = async () => {
       const result = await axios("api/areas");
       if (result.data["areas"]) {
         setTreeData(result.data.areas);
       }
     };
-    fetchData();
+    fetchAreas();
   }, [])
 
-  const [expandedKeys, setExpandedKeys] = useState([]);
-  const [checkedKeys, setCheckedKeys] = useState([]);
-  const [selectedKeys, setSelectedKeys] = useState([]);
-  const [autoExpandParent, setAutoExpandParent] = useState(true);
+  useEffect(() => {
+    dispatch({ "type": "UPDATE_AREA", value: checkedKeys})
+    dispatch({ "type": "FETCH_BOULDERS", query: state.query, areas: checkedKeys })
+  }, [checkedKeys])
 
   const onExpand = expandedKeys => {
-    console.log('onExpand', expandedKeys); // if not set autoExpandParent to false, if children expanded, parent can not collapse.
-    // or, you can remove all expanded children keys.
-
     setExpandedKeys(expandedKeys);
     setAutoExpandParent(false);
   };
@@ -36,8 +38,6 @@ export default function CheckboxTree() {
   const onCheck = checkedKeys => {
     console.log('onCheck', checkedKeys);
     setCheckedKeys(checkedKeys);
-    dispatch({ "type": "UPDATE_AREA", value: checkedKeys})
-    dispatch({ "type": "FETCH_BOULDERS" })
   };
 
   const onSelect = (selectedKeys, info) => {

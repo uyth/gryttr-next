@@ -13,6 +13,7 @@ export default function Search() {
   const [options, setOptions] = useState([]);
 
   useEffect(() => {
+    dispatch({ type: "UPDATE_QUERY", value: query });
     dispatch({ type: "FETCH_BOULDERS", query: query, areas: state.areas });
   }, [query])
 
