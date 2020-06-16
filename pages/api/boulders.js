@@ -32,10 +32,12 @@ const slugToBoulders = {
   "haegefjell": [...Haegefjell["boulders"]],
 }
 
-function getBouldersFromSlugs(slugs) {
+function getBouldersFromSlugs(slugs, query) {
   return slugs.reduce((acc, slug) => {
     if (slugToBoulders[slug]) {
-      acc.push(...slugToBoulders[slug]);
+      let boulders = slugToBoulders[slug]
+        .filter(boulder => boulder.title.toLowerCase().match(query))
+      acc.push(...boulders);
     }
     return acc;
   }, [])
@@ -43,12 +45,13 @@ function getBouldersFromSlugs(slugs) {
 
 export default (req, res) => {
   let slugs = req.query.areas.split(",");
+  let query = req.query.query.toLowerCase();
   let boulders = []
   if (slugs.length > 0) {
     if (slugs[0] == "") {
       slugs = Object.keys(slugToBoulders);
     }
-    boulders = getBouldersFromSlugs(slugs);
+    boulders = getBouldersFromSlugs(slugs, query);
   }
   res.statusCode = 200
   res.json({ boulders: boulders })

@@ -35,7 +35,8 @@ const StateProvider = ({ children }) => {
             'Content-Type': 'application/json;charset=UTF-8'
           },
           params: {
-            areas: state.areas.join(",")
+            areas: state.areas.join(","),
+            query: state.searchTerm
           }
         };
         axios(options)
