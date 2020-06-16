@@ -29,7 +29,7 @@ export default function DistanceSlider() {
       min={1}
       max={Object.keys(distanceSteps).length}
       step={1}
-      tipFormatter={(value) => distances[value].label}
+      tipFormatter={(value) => distanceSteps[value].label}
     />
   )
 }
