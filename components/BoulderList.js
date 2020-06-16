@@ -1,12 +1,8 @@
 import React from 'react';
 
-import { List, Space } from 'antd';
+import { List } from 'antd';
 import { Tag } from 'antd';
-
 import { Row, Col } from "antd";
-
-import { Link } from 'next';
-
 import { Typography } from "antd";
 const { Title, Text } = Typography;
 

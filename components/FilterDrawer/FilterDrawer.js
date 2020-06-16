@@ -2,13 +2,9 @@ import React, { useContext, useState } from 'react';
 import { store } from '../../src/store.js';
 
 import { Container } from '@material-ui/core/';
-
 import { Typography } from 'antd';
-
 const { Title } = Typography;
-
 import { Drawer } from 'antd';
-import { Slider } from 'antd';
 
 import AreaCheckboxTree from "./AreaCheckboxTree";
 import DistanceSlider from "./DistanceSlider";

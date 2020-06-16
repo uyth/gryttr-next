@@ -1,4 +1,3 @@
-// store.js
 import React, { createContext, useReducer } from 'react';
 
 import { distanceSteps } from '../src/distanceSteps';
@@ -39,10 +38,9 @@ const StateProvider = ({ children }) => {
             query: action.query
           }
         };
-        axios(options)
-          .then(response => {
-            dispatch({ type: "UPDATE_BOULDERS", value: response.data.boulders })
-          })
+        axios(options).then(response => {
+          dispatch({ type: "UPDATE_BOULDERS", value: response.data.boulders })
+        })
         return { ...state, loadingBoulders: true };
       case "UPDATE_BOULDERS":
         return { ...state, boulders: action.value, loadingBoulders: false }

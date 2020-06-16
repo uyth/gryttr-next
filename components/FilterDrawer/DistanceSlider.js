@@ -9,7 +9,6 @@ export default function DistanceSlider() {
   const globalState = useContext(store);
   const { state, dispatch } = globalState;
 
-  // distance radius step
   const [distanceRadiusStep, setDistanceRadiusStep] = useState(state.distanceRadiusStep);
 
   const handleDistanceRadiusStepChange = (newValue) => {

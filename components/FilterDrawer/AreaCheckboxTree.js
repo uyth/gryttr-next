@@ -16,7 +16,7 @@ export default function CheckboxTree() {
       if (result.data["areas"]) {
         setTreeData(result.data.areas);
       }
-      };
+    };
     fetchData();
   }, [])
 

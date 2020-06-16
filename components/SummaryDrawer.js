@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { store } from '../src/store.js';
 
 import { Button, Drawer, Typography } from "antd";
 const { Title } = Typography;

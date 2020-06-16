@@ -50,7 +50,6 @@ export default function GradeSlider() {
   const globalState = useContext(store);
   const { state, dispatch } = globalState;
 
-  // gradeValue
   const [gradeValue, setGradeValue] = useState(state.gradeValue);
 
   const handleGradeChange = (newValue) => {
