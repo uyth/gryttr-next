@@ -1,5 +1,5 @@
 import { AutoComplete, Input } from 'antd';
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 
 import { store } from '../src/store.js';
 const axios = require('axios').default;
@@ -7,10 +7,20 @@ const axios = require('axios').default;
 export default function Search() {
 
   const globalState = useContext(store);
-  const { dispatch } = globalState;
+  const { state, dispatch } = globalState;
 
   const [query, setQuery] = useState("");
   const [options, setOptions] = useState([]);
+
+  useEffect(() => {
+    dispatch({ type: "FETCH_BOULDERS", query: query, areas: state.areas });
+  }, [query])
+
+
+  const handleChange = async query => {
+    getQueryOptions(query);
+    setQuery(query);
+  }
 
   const getQueryOptions = async query => {
     const options = {
@@ -27,12 +37,6 @@ export default function Search() {
     axios(options).then(response => {
       setOptions(response.data.boulders);
     })
-  }
-
-  const handleChange = async query => {
-    setOptions(await getQueryOptions(query))
-    dispatch({ type: "UPDATE_SEARCH_TERM", value: query });
-    dispatch({ type: "FETCH_BOULDERS" });
   }
 
   return(

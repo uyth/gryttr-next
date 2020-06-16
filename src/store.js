@@ -6,7 +6,6 @@ import { distanceSteps } from '../src/distanceSteps';
 const axios = require('axios').default;
 
 const initialState = {
-  searchTerm: "",
   sortValue: 0,
   geoLocation: { "latitude": 0, "longitude": 0, "accuracy": 0 },
   boulders: [],
@@ -36,8 +35,8 @@ const StateProvider = ({ children }) => {
             'Content-Type': 'application/json;charset=UTF-8'
           },
           params: {
-            areas: state.areas.join(","),
-            query: state.searchTerm
+            areas: action.areas.join(","),
+            query: action.query
           }
         };
         axios(options)
@@ -47,8 +46,6 @@ const StateProvider = ({ children }) => {
         return { ...state, loadingBoulders: true };
       case "UPDATE_BOULDERS":
         return { ...state, boulders: action.value, loadingBoulders: false }
-      case "UPDATE_SEARCH_TERM":
-        return { ...state, searchTerm: action.value };
       case "UPDATE_GRADE_VALUE":
         return { ...state, gradeValue: action.value };
       case "TOGGLE_DRAWER":
