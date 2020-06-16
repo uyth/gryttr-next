@@ -10,6 +10,7 @@ const initialState = {
   sortValue: 0,
   geoLocation: { "latitude": 0, "longitude": 0, "accuracy": 0 },
   boulders: [],
+  loadingBoulders: false,
   gradeValue: [1, 24],
   dangerValue: [1, 4],
   areas: [],
@@ -43,9 +44,9 @@ const StateProvider = ({ children }) => {
           .then(response => {
             dispatch({ type: "UPDATE_BOULDERS", value: response.data.boulders })
           })
-        return state;
+        return { ...state, loadingBoulders: true };
       case "UPDATE_BOULDERS":
-        return { ...state, boulders: action.value }
+        return { ...state, boulders: action.value, loadingBoulders: false }
       case "UPDATE_SEARCH_TERM":
         return { ...state, searchTerm: action.value };
       case "UPDATE_GRADE_VALUE":

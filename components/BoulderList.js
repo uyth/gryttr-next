@@ -24,7 +24,7 @@ const distanceValueText = (distanceInKm) => {
   }
 }
 
-export default function BoulderList({ boulders }) {
+export default function BoulderList({ boulders, loading }) {
   return (
     <List
       size="small"
@@ -34,6 +34,7 @@ export default function BoulderList({ boulders }) {
         },
         pageSize: 32,
       }}
+      loading={loading}
       dataSource={boulders}
       renderItem={boulder => (
         <List.Item key={boulder.id} style={{}}>

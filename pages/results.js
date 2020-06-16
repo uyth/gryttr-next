@@ -132,7 +132,7 @@ export default function SearchResults() {
       </div>
       <p> Antall treff: {boulders.length}</p>
       <Button type="primary" component={Link} href="/map">Vis treff i kart</Button>
-      <BoulderList boulders={boulders}/>
+      <BoulderList boulders={boulders} loading={state.loadingBoulders} />
       <br/>
     </Container>
   )
