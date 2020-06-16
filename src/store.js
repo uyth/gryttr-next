@@ -17,7 +17,6 @@ const initialState = {
   vertical: true,
   overhang: true,
   activeBoulder: null,
-  drawerOpen: false,
   distanceRadiusStep: Object.keys(distanceSteps).length,
 };
 const store = createContext(initialState);
@@ -47,8 +46,6 @@ const StateProvider = ({ children }) => {
         return { ...state, boulders: action.value, loadingBoulders: false }
       case "UPDATE_GRADE_VALUE":
         return { ...state, gradeValue: action.value };
-      case "TOGGLE_DRAWER":
-        return { ...state, drawerOpen: !state.drawerOpen };
       case "UPDATE_AREA":
         return { ...state, areas: action.value };
       case "UPDATE_QUERY":

@@ -10,7 +10,6 @@ const { Header, Footer, Sider, Content } = Layout;
 
 import TitleBar from '../components/TitleBar';
 import StickySearchBar from '../components/StickyBar';
-import FilterDrawer from '../components/FilterDrawer/FilterDrawer';
 
 
 function FunctionalAppWrapper({ Component, pageProps }) {
@@ -23,7 +22,6 @@ function FunctionalAppWrapper({ Component, pageProps }) {
           <StickySearchBar />
           <Component  {...pageProps} />
         </Content>
-        <FilterDrawer />
       </Layout>
       <style jsx global>{`
         html,

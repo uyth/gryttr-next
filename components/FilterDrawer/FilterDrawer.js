@@ -1,6 +1,3 @@
-import React, { useContext, useState } from 'react';
-import { store } from '../../src/store.js';
-
 import { Container } from '@material-ui/core/';
 import { Typography } from 'antd';
 const { Title } = Typography;
@@ -11,23 +8,16 @@ import DistanceSlider from "./DistanceSlider";
 import GradeSlider from "./GradeSlider";
 
 
-export default function FilterDrawer() {
-
-  const globalState = useContext(store);
-  const { state, dispatch } = globalState;
-
-  const handleToggleDrawer = () => {
-    dispatch({ type: "TOGGLE_DRAWER" })
-  }
+export default function FilterDrawer({ visible, handleToggleDrawer }) {
 
   return (
     <Drawer
       title="Filter"
       closable={true}
       placement="bottom"
-      visible={state.drawerOpen}
+      visible={visible}
       onClose={handleToggleDrawer}
-      height={"50vh"}
+      height={"70vh"}
     >
       <Container>
         <>
