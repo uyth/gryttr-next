@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { store } from '../../src/store.js';
 import axios from "axios"
-import { Tree } from 'antd';
+import { Tree, Spin } from 'antd';
 
 const { TreeNode } = Tree;
 
@@ -46,16 +46,23 @@ export default function CheckboxTree() {
   };
   
   return (
-    <Tree
-      checkable
-      onExpand={onExpand}
-      expandedKeys={expandedKeys}
-      autoExpandParent={autoExpandParent}
-      onCheck={onCheck}
-      checkedKeys={checkedKeys}
-      onSelect={onSelect}
-      selectedKeys={selectedKeys}
-      treeData={treeData}
-    />
+    <>
+    {treeData.length ? (
+      <Tree
+        checkable
+        onExpand={onExpand}
+        expandedKeys={expandedKeys}
+        autoExpandParent={autoExpandParent}
+        onCheck={onCheck}
+        checkedKeys={checkedKeys}
+        onSelect={onSelect}
+        selectedKeys={selectedKeys}
+        treeData={treeData}
+      /> 
+    )
+      : <Spin/>
+    }
+    </>
+
   )
 }
