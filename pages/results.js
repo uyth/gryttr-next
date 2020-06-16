@@ -89,11 +89,11 @@ export default function SearchResults() {
 
   // filter boulders
   let boulders = state["boulders"]
-    // add distance
-    .map(boulder => ({
-      ...boulder,
-      distanceInKm: calculateDistance(boulder.latitude, boulder.longitude, state.geoLocation.latitude, state.geoLocation.longitude)
-    }))
+    // add distanceInKm
+    .reduce((acc, boulder) => {
+      acc.push({...boulder, distanceInKm: calculateDistance(boulder.latitude, boulder.longitude, state.geoLocation.latitude, state.geoLocation.longitude)})
+      return acc;
+    }, [])
     .filter((boulder) => state.gradeValue[0] <= swap(gradeMapping)[boulder.grade.title])
     .filter((boulder) => swap(gradeMapping)[boulder.grade.title] <= state.gradeValue[1])
     // filter on radius
