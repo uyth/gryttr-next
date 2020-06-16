@@ -1,10 +1,10 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { store } from '../src/store.js';
 
-import Grid from '@material-ui/core/Grid';
 import { Container } from '@material-ui/core/';
-
+import { Button } from "antd";
 import BoulderList from '../components/BoulderList';
+import { Link } from 'next';
 
 import { distanceSteps } from '../src/distanceSteps';
 
@@ -131,6 +131,7 @@ export default function SearchResults() {
         <p>Accuracy: {state.geoLocation.accuracy}</p>
       </div>
       <p> Antall treff: {boulders.length}</p>
+      <Button type="primary" component={Link} href="/map">Vis treff i kart</Button>
       <BoulderList boulders={boulders}/>
       <br/>
     </Container>
