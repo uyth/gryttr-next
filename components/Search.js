@@ -41,6 +41,7 @@ export default function Search() {
       dropdownMatchSelectWidth={"100%"}
       options={options}
       onChange={handleChange}
+      notFoundContent="Ingen match funnet"
     >
       <Input.Search size="large" placeholder="Søk her" enterButton />
     </AutoComplete>
