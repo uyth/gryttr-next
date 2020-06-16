@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
 import { store } from '../src/store.js';
 
-import { Box, Container } from '@material-ui/core/';
-import IconButton from '@material-ui/core/IconButton';
+import { Container } from '@material-ui/core/';
 import TuneIcon from '@material-ui/icons/Tune';
 import Search from "./Search";
+import { Affix, Button, Space } from "antd"
 
 export default function StickySearchBar() {
 
@@ -16,22 +16,16 @@ export default function StickySearchBar() {
   }
 
   return (
-    <Box
-      position="sticky"
-      top="0"
-      zIndex="2"
-      bgcolor="#ffffff"
-      boxShadow={2}
-    >
-      <Container>
-        <Box display="flex" alignItems="center" padding={1}>
-          <Search />
-          <IconButton onClick={handleToggleDrawer}>
-            <TuneIcon />
-          </IconButton>
-        </Box>
-      </Container>
-    </Box>
+    <Affix>
+      <div style={{background: "#fff", boxShadow: "2px 2px 4px 4px #ccc"}}>
+        <Container>
+          <Space align="center" size="small" style={{height: "64px"}}>
+            <Search />
+            <Button size="large" onClick={handleToggleDrawer}><TuneIcon /></Button>
+          </Space>
+        </Container>
+      </div>
+    </Affix>
   );
 
 }
