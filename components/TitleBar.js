@@ -6,7 +6,7 @@ import { Container } from '@material-ui/core/';
 export default function TitleBar() {
   return (
     <Container>
-      <Title level={1}>GRYTTR</Title>
+      <img src="/logo.svg" height="20em"/>
     </Container>
   )
 };

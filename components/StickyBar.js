@@ -17,7 +17,7 @@ export default function StickySearchBar() {
 
   return (
     <Affix>
-      <div style={{background: "#fff", borderBottom: "1px solid #d3d3d3"}}>
+      <div style={{background: "#fff", borderBottom: "1px solid #f0f0f0"}}>
         <Container>
           <Space align="center" size="small" style={{height: "64px"}}>
             <Search />
