@@ -54,6 +54,8 @@ const StateProvider = ({ children }) => {
         return { ...state, geoLocation: { "longitude": action.longitude, "latitude": action.latitude, "accuracy": action.accuracy } };
       case "UPDATE_DISTANCE_RADIUS_STEP":
         return { ...state, distanceRadiusStep: action.value };
+      case "UPDATE_SORT_VALUE":
+        return { ...state, sortValue: action.value };
       default:
         throw new Error();
     };

@@ -101,9 +101,9 @@ export default function SearchResults() {
     .sort((a, b) => {
       if (state.sortValue == 0) {
         return compareDistance(a.distanceInKm, b.distanceInKm);
-      } else if (sortValue == 1) {
+      } else if (state.sortValue == 1) {
         return compareGrade(a.grade.title, b.grade.title);
-      } else if (sortValue == 2) {
+      } else if (state.sortValue == 2) {
         return compareName(a.title.toUpperCase(), b.title.toUpperCase());
       }
     })

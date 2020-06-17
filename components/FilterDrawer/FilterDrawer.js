@@ -4,6 +4,7 @@ import { Drawer, Divider } from 'antd';
 import AreaCheckboxTree from "./AreaCheckboxTree";
 import DistanceSlider from "./DistanceSlider";
 import GradeSlider from "./GradeSlider";
+import SortSelector from "./SortSelector";
 
 
 export default function FilterDrawer({ visible, handleToggleDrawer }) {
@@ -18,6 +19,8 @@ export default function FilterDrawer({ visible, handleToggleDrawer }) {
       height={"70vh"}
     >
       <Container>
+        <Divider>Sorter</Divider>
+        <SortSelector />
         <Divider>Grad</Divider>
         <GradeSlider />
         <Divider>Område</Divider>
