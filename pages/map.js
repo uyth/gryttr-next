@@ -8,6 +8,7 @@ import SummaryDrawer from '../components/SummaryDrawer';
 import StickySearchBar from '../components/StickyBar';
 
 import { distanceSteps } from '../src/distanceSteps';
+import { gradeValues } from '../src/gradeValues';
 
 const DynamicComponentWithNoSSR = dynamic(
   (boulders) => import('../components/BoulderMap'),
@@ -49,33 +50,6 @@ function calculateDistance(lat1, lon1, lat2, lon2, unit) {
   return dist
 }
 
-const gradeMapping = {
-  "1": "3",
-  "2": "3+",
-  "3": "4",
-  "4": "4+",
-  "5": "5",
-  "6": "5+",
-  "7": "6A",
-  "8": "6A+",
-  "9": "6B",
-  "10": "6B+",
-  "11": "6C",
-  "12": "6C+",
-  "13": "7A",
-  "14": "7A+",
-  "15": "7B",
-  "16": "7B+",
-  "17": "7C",
-  "18": "7C+",
-  "19": "8A",
-  "20": "8A+",
-  "21": "8B",
-  "22": "8B+",
-  "23": "8C",
-  "24": "8C+"
-};
-
 export default function MapView() {
 
   const globalState = useContext(store);
@@ -88,8 +62,8 @@ export default function MapView() {
       return acc;
     }, [])
     // filer on grade
-    .filter((boulder) => state.gradeValue[0] <= swap(gradeMapping)[boulder.grade.title])
-    .filter((boulder) => swap(gradeMapping)[boulder.grade.title] <= state.gradeValue[1])
+    .filter((boulder) => state.gradeValue[0] <= swap(gradeValues)[boulder.grade.title])
+    .filter((boulder) => swap(gradeValues)[boulder.grade.title] <= state.gradeValue[1])
     // filter on radius
     .filter(boulder => distanceSteps[state.distanceRadiusStep].distanceInKm >= boulder.distanceInKm)
 

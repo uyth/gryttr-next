@@ -8,33 +8,8 @@ import { Button, Card } from "antd";
 import BoulderList from '../components/BoulderList';
 import StickySearchBar from '../components/StickyBar';
 import { distanceSteps } from '../src/distanceSteps';
+import { gradeValues } from '../src/gradeValues';
 
-const gradeMapping = {
-  "1": "3",
-  "2": "3+",
-  "3": "4",
-  "4": "4+",
-  "5": "5",
-  "6": "5+",
-  "7": "6A",
-  "8": "6A+",
-  "9": "6B",
-  "10": "6B+",
-  "11": "6C",
-  "12": "6C+",
-  "13": "7A",
-  "14": "7A+",
-  "15": "7B",
-  "16": "7B+",
-  "17": "7C",
-  "18": "7C+",
-  "19": "8A",
-  "20": "8A+",
-  "21": "8B",
-  "22": "8B+",
-  "23": "8C",
-  "24": "8C+"
-};
 
 function swap(json) {
   var ret = {};
@@ -60,7 +35,7 @@ function compareDistance(distanceA, distanceB) {
 }
 
 function compareGrade(gradeA, gradeB) {
-  return swap(gradeMapping)[gradeA] - swap(gradeMapping)[gradeB];
+  return swap(gradeValues)[gradeA] - swap(gradeValues)[gradeB];
 }
 
 function calculateDistance(lat1, lon1, lat2, lon2, unit) {
@@ -95,8 +70,8 @@ export default function SearchResults() {
       acc.push({...boulder, distanceInKm: calculateDistance(boulder.latitude, boulder.longitude, state.geoLocation.latitude, state.geoLocation.longitude)})
       return acc;
     }, [])
-    .filter((boulder) => state.gradeValue[0] <= swap(gradeMapping)[boulder.grade.title])
-    .filter((boulder) => swap(gradeMapping)[boulder.grade.title] <= state.gradeValue[1])
+    .filter((boulder) => state.gradeValue[0] <= swap(gradeValues)[boulder.grade.title])
+    .filter((boulder) => swap(gradeValues)[boulder.grade.title] <= state.gradeValue[1])
     // filter on radius
     .filter(boulder => distanceSteps[state.distanceRadiusStep].distanceInKm >= boulder.distanceInKm)
     .sort((a, b) => {

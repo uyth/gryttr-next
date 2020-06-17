@@ -1,6 +1,7 @@
 import React, { createContext, useReducer } from 'react';
 
 import { distanceSteps } from '../src/distanceSteps';
+import { gradeValues } from '../src/gradeValues';
 
 const axios = require('axios').default;
 
@@ -10,7 +11,7 @@ const initialState = {
   boulders: [],
   loadingBoulders: false,
   query: "",
-  gradeValue: [1, 24],
+  gradeValue: [1, Object.keys(gradeValues).length],
   dangerValue: [1, 4],
   areas: [],
   slab: true,
