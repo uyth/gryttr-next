@@ -3,14 +3,20 @@ import { store } from '../src/store.js';
 import dynamic from 'next/dynamic'
 import Head from 'next/head';
 
-import SummaryDrawer from '../components/SummaryDrawer';
-import StickyBar from "../components/StickyBar";
+import { Spin, Row } from "antd";
 
+import SummaryDrawer from '../components/SummaryDrawer';
 import { distanceSteps } from '../src/distanceSteps';
 
 const DynamicComponentWithNoSSR = dynamic(
   (boulders) => import('../components/BoulderMap'),
-  { ssr: false }
+  { ssr: false,
+    loading: () => (
+      <Row justify="space-around" align="middle" style={{height:"100%", width: "100%"}}>
+        <Spin />
+      </Row>
+    )
+  }
 )
 
 function swap(json) {
