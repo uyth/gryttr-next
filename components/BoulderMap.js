@@ -5,6 +5,8 @@ import { Map, Marker, Popup, TileLayer, ZoomControl, LayersControl, CircleMarker
 import { LatLng, Icon } from "leaflet";
 
 import { Typography } from "antd";
+import Head from 'next/head';
+
 const { Title } = Typography;
 
 const { BaseLayer } = LayersControl;
@@ -41,6 +43,13 @@ export default function BoulderMap({ boulders }) {
   }, [])
 
   return (
+    <>
+      <Head>
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+          integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+          crossorigin=""
+        />
+      </Head>
       <Map
         center={initialCenter}
         zoom={12}
@@ -86,5 +95,6 @@ export default function BoulderMap({ boulders }) {
         </LayersControl>
         <ZoomControl position="bottomright" />
       </Map>
+    </>
   )
 }
