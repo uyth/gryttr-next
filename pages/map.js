@@ -5,6 +5,8 @@ import dynamic from 'next/dynamic'
 import { Spin, Row } from "antd";
 
 import SummaryDrawer from '../components/SummaryDrawer';
+import StickySearchBar from '../components/StickyBar';
+
 import { distanceSteps } from '../src/distanceSteps';
 
 const DynamicComponentWithNoSSR = dynamic(
@@ -94,6 +96,7 @@ export default function MapView() {
 
   return (
     <>
+      <StickySearchBar />
       <DynamicComponentWithNoSSR boulders={boulders} />
       <SummaryDrawer boulders={boulders}/>
     </>

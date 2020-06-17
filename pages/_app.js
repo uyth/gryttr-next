@@ -10,8 +10,6 @@ import { Layout } from 'antd';
 const { Header, Footer, Sider, Content } = Layout;
 
 import TitleBar from '../components/TitleBar';
-import StickySearchBar from '../components/StickyBar';
-
 
 function FunctionalAppWrapper({ Component, pageProps }) {
   
@@ -22,9 +20,8 @@ function FunctionalAppWrapper({ Component, pageProps }) {
       </Head>
       <StateProvider>
         <Layout style={{height: "100vh"}}>
-          <Header style={{zIndex: 1, background:"#fff", padding: 0}}><TitleBar /></Header>
+          <Header style={{zIndex: 1, background:"#fff", padding: 0, borderBottom: "1px solid #f0f0f0"}}><TitleBar /></Header>
           <Content style={{background:"white"}}>
-            <StickySearchBar />
             <Component  {...pageProps} />
           </Content>
         </Layout>

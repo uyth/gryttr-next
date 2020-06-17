@@ -3,9 +3,10 @@ import { store } from '../src/store.js';
 
 import { Container } from '@material-ui/core/';
 import { Button, Card } from "antd";
-import BoulderList from '../components/BoulderList';
 import { Link } from 'next';
 
+import BoulderList from '../components/BoulderList';
+import StickySearchBar from '../components/StickyBar';
 import { distanceSteps } from '../src/distanceSteps';
 
 const gradeMapping = {
@@ -109,16 +110,19 @@ export default function SearchResults() {
     })
 
   return (
-    <Container>
-      <br/>
-      <Card>
-        <p><b>Detaljer:</b></p>
-        <p><b>Debugging:</b> Position: ({state.geoLocation.latitude}, {state.geoLocation.longitude}), Accuracy: {state.geoLocation.accuracy}m</p>
-        <p> Antall treff: {boulders.length}</p>
-        <Button type="primary" component={Link} href="/map">Vis treff i kart</Button>
-      </Card>
-      <BoulderList boulders={boulders} loading={state.loadingBoulders} />
-      <br/>
-    </Container>
+    <>
+      <StickySearchBar />
+      <Container>
+        <br/>
+        <Card>
+          <p><b>Detaljer:</b></p>
+          <p><b>Debugging:</b> Position: ({state.geoLocation.latitude}, {state.geoLocation.longitude}), Accuracy: {state.geoLocation.accuracy}m</p>
+          <p> Antall treff: {boulders.length}</p>
+          <Button type="primary" component={Link} href="/map">Vis treff i kart</Button>
+        </Card>
+        <BoulderList boulders={boulders} loading={state.loadingBoulders} />
+        <br/>
+      </Container>
+    </>
   )
 }
