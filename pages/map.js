@@ -72,7 +72,7 @@ export default function MapView() {
 
   const globalState = useContext(store);
   const { state, dispatch } = globalState;
-  
+
   const [userLocation, setUserLocation] = useState([0.0, 0.0]);
   useEffect(() => {
     if ('geolocation' in navigator) {
@@ -84,11 +84,11 @@ export default function MapView() {
   })
 
   let boulders = state["boulders"]
-    // add distance
-    .map(boulder => ({
-      ...boulder,
-      distanceInKm: calculateDistance(boulder.latitude, boulder.longitude, userLocation[0], userLocation[1])
-    }))
+    // add distanceInKm
+    .reduce((acc, boulder) => {
+      acc.push({...boulder, distanceInKm: calculateDistance(boulder.latitude, boulder.longitude, state.geoLocation.latitude, state.geoLocation.longitude)})
+      return acc;
+    }, [])
     // filer on grade
     .filter((boulder) => state.gradeValue[0] <= swap(gradeMapping)[boulder.grade.title])
     .filter((boulder) => swap(gradeMapping)[boulder.grade.title] <= state.gradeValue[1])
