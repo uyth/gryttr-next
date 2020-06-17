@@ -12,7 +12,7 @@ export default function Search() {
 
   const [query, setQuery] = useState(state.query);
   const [options, setOptions] = useState([]);
-  const [userLocation, setUserLocation] = useState([0.0, 0.0, 0.0]);
+  const [userLocation, setUserLocation] = useState([state.geoLocation.latitude, state.geoLocation.longitude, state.geoLocation.accuracy]);
 
   useEffect(() => {
     dispatch({ type: "UPDATE_QUERY", value: query });
