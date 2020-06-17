@@ -8,7 +8,7 @@ import SummaryDrawer from '../components/SummaryDrawer';
 import { distanceSteps } from '../src/distanceSteps';
 
 const DynamicComponentWithNoSSR = dynamic(
-  (boulders, useLocation) => import('../components/BoulderMap'),
+  (boulders) => import('../components/BoulderMap'),
   { ssr: false }
 )
 
@@ -73,16 +73,6 @@ export default function MapView() {
   const globalState = useContext(store);
   const { state, dispatch } = globalState;
 
-  const [userLocation, setUserLocation] = useState([0.0, 0.0]);
-  useEffect(() => {
-    if ('geolocation' in navigator) {
-      navigator.geolocation.watchPosition(position => {
-        // dispatch({ type: "UPDATE_GEO_LOCATION", latitude: position.coords.latitude, longitude: position.coords.longitude });
-        setUserLocation([position.coords.latitude, position.coords.longitude]);
-      });
-    }
-  })
-
   let boulders = state["boulders"]
     // add distanceInKm
     .reduce((acc, boulder) => {
@@ -94,7 +84,6 @@ export default function MapView() {
     .filter((boulder) => swap(gradeMapping)[boulder.grade.title] <= state.gradeValue[1])
     // filter on radius
     .filter(boulder => distanceSteps[state.distanceRadiusStep].distanceInKm >= boulder.distanceInKm)
-
 
 
   return (
@@ -112,7 +101,7 @@ export default function MapView() {
           crossorigin="" />
         <script src="https://unpkg.com/react-leaflet-markercluster/dist/styles.min.css"></script>
       </Head>
-      <DynamicComponentWithNoSSR boulders={boulders} userLocation={userLocation}/>
+      <DynamicComponentWithNoSSR boulders={boulders} />
       <SummaryDrawer boulders={boulders}/>
     </div>
   )

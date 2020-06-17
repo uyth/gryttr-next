@@ -26,21 +26,28 @@ const markerBlue = new Icon({
   shadowAnchor: [14, 24],
 });
 
-export default function BoulderMap({boulders, userLocation }) {
+export default function BoulderMap({ boulders }) {
   const globalState = useContext(store);
   const { state, dispatch } = globalState;
 
   const [boulderInFocus, setFocus] = useState(null);
+  
+  let initialCenter = [0.0, 0.0];
+  if ('geolocation' in navigator) {
+    navigator.geolocation.watchPosition(position => {
+      initialCenter = [position.coords.latitude, position.coords.longitude];
+    });
+  }
 
   return (
       <Map
-        center={userLocation}
+        center={initialCenter}
         zoom={12}
         zoomControl={false} // do not include default zoom control
         maxZoom={19}
         preferCanvas={true}
       >
-        <Marker position={userLocation} icon={markerRed}/>
+        <Marker position={new LatLng(state.geoLocation.latitude, state.geoLocation.longitude)} icon={markerRed}/>
         {/* <MarkerClusterGroup> */}
           {boulders
             .map(boulder => (
