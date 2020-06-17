@@ -1,7 +1,5 @@
 import { Container } from '@material-ui/core/';
-import { Typography } from 'antd';
-const { Title } = Typography;
-import { Drawer } from 'antd';
+import { Drawer, Divider } from 'antd';
 
 import AreaCheckboxTree from "./AreaCheckboxTree";
 import DistanceSlider from "./DistanceSlider";
@@ -20,18 +18,12 @@ export default function FilterDrawer({ visible, handleToggleDrawer }) {
       height={"70vh"}
     >
       <Container>
-        <>
-          <Title level={4}>Grad</Title>
-          <GradeSlider />
-        </>
-        <>
-          <Title level={4}>Velg område</Title>
-          <AreaCheckboxTree />
-        </>
-        <>
-          <Title level={4}>Avstand fra deg</Title>
-          <DistanceSlider />
-        </>
+        <Divider>Grad</Divider>
+        <GradeSlider />
+        <Divider>Område</Divider>
+        <AreaCheckboxTree />
+        <Divider>Avstand</Divider>
+        <DistanceSlider />
       </Container>
     </Drawer>
   )
