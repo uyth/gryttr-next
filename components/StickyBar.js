@@ -11,8 +11,8 @@ export default function StickySearchBar() {
 
   const [openDrawer, setOpenDrawer] = useState(false);
 
-  const handleToggleDrawer = () => {
-    setOpenDrawer(!openDrawer);
+  const toggleDrawer = (bool) => {
+    setOpenDrawer(bool);
   }
 
   return (
@@ -21,11 +21,11 @@ export default function StickySearchBar() {
         <Container>
           <Space align="center" size="small" style={{height: "64px"}}>
             <Search />
-            <Button size="large" onClick={handleToggleDrawer}><TuneIcon /></Button>
+            <Button size="large" onClick={() => toggleDrawer(true)}><TuneIcon /></Button>
           </Space>
+          <FilterDrawer handleToggleDrawer={() => toggleDrawer(false)} visible={openDrawer}/>
         </Container>
       </div>
-      <FilterDrawer handleToggleDrawer={handleToggleDrawer} visible={openDrawer}/>
     </Affix>
   );
 
