@@ -10,7 +10,7 @@ export default function Search() {
   const globalState = useContext(store);
   const { state, dispatch } = globalState;
 
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState(state.query);
   const [options, setOptions] = useState([]);
   const [userLocation, setUserLocation] = useState([0.0, 0.0, 0.0]);
 
@@ -59,6 +59,7 @@ export default function Search() {
 
   return(
     <AutoComplete
+      value={state.query}
       style={{width:"100%"}}
       dropdownMatchSelectWidth={"100%"}
       options={options}
