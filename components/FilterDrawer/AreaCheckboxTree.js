@@ -11,8 +11,7 @@ export default function CheckboxTree() {
 
   const [treeData, setTreeData] = useState([]);
   const [expandedKeys, setExpandedKeys] = useState([]);
-  const [checkedKeys, setCheckedKeys] = useState([]);
-  const [selectedKeys, setSelectedKeys] = useState([]);
+  const [checkedKeys, setCheckedKeys] = useState(state.areas);
   const [autoExpandParent, setAutoExpandParent] = useState(true);
   
   useEffect(() => {
@@ -40,9 +39,9 @@ export default function CheckboxTree() {
     setCheckedKeys(checkedKeys);
   };
 
-  const onSelect = (selectedKeys, info) => {
+  const onSelect = (checkedKeys, info) => {
     console.log('onSelect', info);
-    setSelectedKeys(selectedKeys);
+    setCheckedKeys(checkedKeys);
   };
   
   return (
@@ -50,13 +49,14 @@ export default function CheckboxTree() {
     {treeData.length ? (
       <Tree
         checkable
+        selectable={false}
         onExpand={onExpand}
         expandedKeys={expandedKeys}
         autoExpandParent={autoExpandParent}
         onCheck={onCheck}
         checkedKeys={checkedKeys}
         onSelect={onSelect}
-        selectedKeys={selectedKeys}
+        selectedKeys={checkedKeys}
         treeData={treeData}
         style={{fontSize: 18}}
       /> 
