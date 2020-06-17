@@ -31,13 +31,15 @@ export default function BoulderMap({ boulders }) {
   const { state, dispatch } = globalState;
 
   const [boulderInFocus, setFocus] = useState(null);
-  
-  let initialCenter = [0.0, 0.0];
-  if ('geolocation' in navigator) {
-    navigator.geolocation.watchPosition(position => {
-      initialCenter = [position.coords.latitude, position.coords.longitude];
-    });
-  }
+  const [initialCenter, setInitialCenter] = useState([0.0, 0.0]);
+
+  useEffect(() => {
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition(position => {
+        setInitialCenter([position.coords.latitude, position.coords.longitude]);
+      });
+    }
+  }, [])
 
   return (
       <Map
