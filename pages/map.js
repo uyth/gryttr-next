@@ -4,6 +4,7 @@ import dynamic from 'next/dynamic'
 import Head from 'next/head';
 
 import SummaryDrawer from '../components/SummaryDrawer';
+import StickyBar from "../components/StickyBar";
 
 import { distanceSteps } from '../src/distanceSteps';
 
@@ -87,7 +88,7 @@ export default function MapView() {
 
 
   return (
-    <div>
+    <>
       <Head>
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
           integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
@@ -103,6 +104,6 @@ export default function MapView() {
       </Head>
       <DynamicComponentWithNoSSR boulders={boulders} />
       <SummaryDrawer boulders={boulders}/>
-    </div>
+    </>
   )
 }

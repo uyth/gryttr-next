@@ -44,7 +44,7 @@ export default function SummaryDrawer({ boulders }) {
     <>
       <Button onClick={() => setOpenSummary(true)}
         type="primary" shape="round" size="large"
-        style={{ bottom: "24px", left: "50vw", marginLeft: "-125px", width: "250px", position: "fixed" }}
+        style={{ bottom: "24px", left: "50vw", marginLeft: "-125px", width: "250px", position: "fixed", zIndex: 1000 }}
       >
         Oppsummering ({boulders.length})
       </Button>
