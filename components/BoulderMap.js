@@ -84,7 +84,7 @@ export default function BoulderMap({ boulders }) {
           <BaseLayer name="Google Sattelite">
             <TileLayer
               url="http://mt0.google.com/vt/lyrs=s&hl=en&x={x}&y={y}&z={z}"
-              attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+              attribution='Google Sattelite'
             />
           </BaseLayer>
         </LayersControl>
