@@ -60,6 +60,10 @@ export default function GradeSlider() {
     dispatch({ type: "UPDATE_GRADE_VALUE", value: gradeValue })
   }
 
+  useEffect(() => {
+    setGradeValue(state.gradeValue);
+  }, [state.gradeValue])
+
   return (
     <Slider
       range
