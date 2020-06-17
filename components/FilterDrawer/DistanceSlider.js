@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { store } from '../../src/store.js';
 import { distanceSteps } from '../../src/distanceSteps';
 
@@ -18,6 +18,10 @@ export default function DistanceSlider() {
   const commitDistanceRadiusStep = () => {
     dispatch({ type: "UPDATE_DISTANCE_RADIUS_STEP", value: distanceRadiusStep })
   }
+
+  useEffect(() => {
+    setDistanceRadiusStep(state.distanceRadiusStep);
+  }, [state.distanceRadiusStep])
 
   return (
     <Slider
