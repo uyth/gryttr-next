@@ -79,7 +79,7 @@ export default function BoulderMap({ boulders }) {
             </a>
           </Popup>
         )}
-        <LayersControl position="bottomright">
+        <LayersControl position="topright">
           <BaseLayer checked name="OpenStreetMap Mapnik">
             <TileLayer
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -93,7 +93,7 @@ export default function BoulderMap({ boulders }) {
             />
           </BaseLayer>
         </LayersControl>
-        <ZoomControl position="bottomright" />
+        <ZoomControl position="topright" />
       </Map>
     </>
   )
