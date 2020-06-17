@@ -58,6 +58,7 @@ export default function CheckboxTree() {
         onSelect={onSelect}
         selectedKeys={selectedKeys}
         treeData={treeData}
+        style={{fontSize: 18}}
       /> 
     )
       : <Spin/>
