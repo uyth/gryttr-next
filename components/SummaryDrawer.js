@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
+import Router from "next/router";
 
 import { Button, Drawer, Typography } from "antd";
-const { Title } = Typography;
-import { Link } from 'next';
 
 export default function SummaryDrawer({ boulders }) {
 
@@ -55,7 +54,7 @@ export default function SummaryDrawer({ boulders }) {
         placement="bottom"
         onClose={() => setOpenSummary(false)}
       >
-        <Button type="primary" component={Link} href="/results">Vis treff i liste</Button>
+        <Button type="primary" onClick={() => Router.push("/results")}>Vis treff i liste</Button>
         {Object.keys(boulderCountPerGrade).map(key => <p key={key}>{key}: {boulderCountPerGrade[key]}</p>)}
       </Drawer>
     </>

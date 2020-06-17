@@ -1,8 +1,9 @@
-import { AutoComplete, Input } from 'antd';
 import React, { useState, useContext, useEffect } from 'react';
-
+import Router from "next/router";
 import { store } from '../src/store.js';
 const axios = require('axios').default;
+
+import { AutoComplete, Input } from 'antd';
 
 export default function Search() {
 
@@ -52,6 +53,10 @@ export default function Search() {
     })
   }
 
+  const handleSearch = () => {
+    Router.push("/results");
+  }
+
   return(
     <AutoComplete
       style={{width:"100%"}}
@@ -60,7 +65,10 @@ export default function Search() {
       onChange={handleChange}
       notFoundContent="Ingen match funnet"
     >
-      <Input.Search size="large" placeholder="Søk her" enterButton />
+      <Input.Search
+        size="large" placeholder="Søk her" enterButton
+        onSearch={handleSearch}
+      />
     </AutoComplete>
   )
 

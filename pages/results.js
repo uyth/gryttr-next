@@ -1,9 +1,9 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { store } from '../src/store.js';
+import Router from "next/router";
 
 import { Container } from '@material-ui/core/';
 import { Button, Card } from "antd";
-import { Link } from 'next';
 
 import BoulderList from '../components/BoulderList';
 import StickySearchBar from '../components/StickyBar';
@@ -118,7 +118,7 @@ export default function SearchResults() {
           <p><b>Detaljer:</b></p>
           <p><b>Debugging:</b> Position: ({state.geoLocation.latitude}, {state.geoLocation.longitude}), Accuracy: {state.geoLocation.accuracy}m</p>
           <p> Antall treff: {boulders.length}</p>
-          <Button type="primary" component={Link} href="/map">Vis treff i kart</Button>
+          <Button type="primary" onClick={() => Router.push("/map")}>Vis treff i kart</Button>
         </Card>
         <BoulderList boulders={boulders} loading={state.loadingBoulders} />
         <br/>
