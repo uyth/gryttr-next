@@ -12,7 +12,6 @@ export default class MyDocument extends Document {
             href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
             media="print" onload="this.media='all'"
           />
-          <title>Gryttr | Når du buldrer ute</title>
           <meta name="description" content="Gryttr.com er klatreguiden som er skreddersydd for buldring. Løsningen er designet for mobil men den fungerer på større skjermer. Gryttr får mye skryt for sin brukervennlighet. Folk finner frem i skogen!" />
         </Head>
         <body>
