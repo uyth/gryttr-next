@@ -22,7 +22,7 @@ function FunctionalAppWrapper({ Component, pageProps }) {
       </Head>
       <StateProvider>
         <Layout style={{height: "100vh"}}>
-          <Header style={{zIndex: 1, background:"#fff"}}><TitleBar /></Header>
+          <Header style={{zIndex: 1, background:"#fff", padding: 0}}><TitleBar /></Header>
           <Content style={{background:"white"}}>
             <StickySearchBar />
             <Component  {...pageProps} />
