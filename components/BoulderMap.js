@@ -2,7 +2,6 @@ import React, { useContext, useState, useEffect, useRef } from 'react';
 import { store } from '../src/store.js';
 
 import { Map, Marker, Popup, TileLayer, ZoomControl, LayersControl, CircleMarker } from "react-leaflet";
-import MarkerClusterGroup from "react-leaflet-markercluster";
 import { LatLng, Icon } from "leaflet";
 
 import { Typography } from "antd";
@@ -50,17 +49,14 @@ export default function BoulderMap({ boulders }) {
         preferCanvas={true}
       >
         <Marker position={new LatLng(state.geoLocation.latitude, state.geoLocation.longitude)} icon={markerRed}/>
-        {/* <MarkerClusterGroup> */}
-          {boulders
-            .map(boulder => (
-              <CircleMarker
-                key={boulder.id}
-                center={new LatLng(boulder.latitude, boulder.longitude)}
-                radius={10}
-                onclick={() => { setFocus(boulder) }}
-              />
-          ))}
-        {/* </MarkerClusterGroup> */}
+        {boulders.map(boulder => (
+          <CircleMarker
+            key={boulder.id}
+            center={new LatLng(boulder.latitude, boulder.longitude)}
+            radius={10}
+            onclick={() => { setFocus(boulder) }}
+          />
+        ))}
         {boulderInFocus && (
           <Popup
             position={new LatLng(boulderInFocus.latitude, boulderInFocus.longitude)}

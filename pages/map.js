@@ -100,11 +100,6 @@ export default function MapView() {
           integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
           crossorigin=""
         />
-        <link
-          rel="stylesheet"
-          href="https://unpkg.com/react-leaflet-markercluster/dist/styles.min.css"
-        />
-        <script src="https://unpkg.com/react-leaflet-markercluster/dist/styles.min.css"></script>
       </Head>
       <DynamicComponentWithNoSSR boulders={boulders} />
       <SummaryDrawer boulders={boulders}/>
