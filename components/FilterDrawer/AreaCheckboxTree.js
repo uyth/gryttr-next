@@ -11,7 +11,7 @@ export default function CheckboxTree() {
 
   const [treeData, setTreeData] = useState([]);
   const [expandedKeys, setExpandedKeys] = useState([]);
-  const [checkedKeys, setCheckedKeys] = useState(state.areas);
+  const [checkedAreas, setCheckedAreas] = useState(state.areas);
   const [autoExpandParent, setAutoExpandParent] = useState(true);
   
   useEffect(() => {
@@ -25,25 +25,35 @@ export default function CheckboxTree() {
   }, [])
 
   useEffect(() => {
-    dispatch({ "type": "UPDATE_AREA", value: checkedKeys})
-    dispatch({ "type": "FETCH_BOULDERS", query: state.query, areas: checkedKeys })
-  }, [checkedKeys])
+    setCheckedAreas(state.areas);
+  }, [state.areas])
+
+  const commitChanges = (checkedKeys) => {
+    let parents = treeData.reduce((acc, area) => {
+      acc.push(area.key);
+      return acc;
+    }, [])
+    let childAreas = checkedKeys.filter(area => !parents.includes(area));
+    setCheckedAreas(childAreas);
+    dispatch({ "type": "UPDATE_AREA", value: childAreas })
+    dispatch({ "type": "FETCH_BOULDERS", query: state.query, areas: childAreas })
+  }
 
   const onExpand = expandedKeys => {
     setExpandedKeys(expandedKeys);
     setAutoExpandParent(false);
   };
 
-  const onCheck = checkedKeys => {
-    console.log('onCheck', checkedKeys);
-    setCheckedKeys(checkedKeys);
+  const onCheck = checkedAreas => {
+    console.log('onCheck', checkedAreas);
+    commitChanges(checkedAreas);
   };
 
-  const onSelect = (checkedKeys, info) => {
+  const onSelect = (checkedAreas, info) => {
     console.log('onSelect', info);
-    setCheckedKeys(checkedKeys);
+    commitChanges(checkedAreas);
   };
-  
+
   return (
     <>
     {treeData.length ? (
@@ -54,9 +64,9 @@ export default function CheckboxTree() {
         expandedKeys={expandedKeys}
         autoExpandParent={autoExpandParent}
         onCheck={onCheck}
-        checkedKeys={checkedKeys}
+        checkedKeys={checkedAreas}
         onSelect={onSelect}
-        selectedKeys={checkedKeys}
+        selectedKeys={checkedAreas}
         treeData={treeData}
         style={{fontSize: 18}}
       /> 
