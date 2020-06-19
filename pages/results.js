@@ -2,8 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import { store } from '../src/store.js';
 import Router from "next/router";
 
-import { Container } from '@material-ui/core/';
-import { Button, Card } from "antd";
+import { Button, Card, Spin } from "antd";
 
 import ActiveFilters from '../components/ActiveFilters';
 import BoulderList from '../components/BoulderList';
@@ -86,20 +85,32 @@ export default function SearchResults() {
     })
 
   return (
-    <>
+    <div>
       <StickySearchBar />
-      <Container>
-        <br/>
-        <Card>
-          <p><b>Detaljer:</b></p>
-          <p><b>Debugging:</b> Position: ({state.geoLocation.latitude}, {state.geoLocation.longitude}), Accuracy: {state.geoLocation.accuracy}m</p>
-          <ActiveFilters />
-          <p> Antall treff: {boulders.length}</p>
-          <Button type="primary" onClick={() => Router.push("/map")}>Vis treff i kart</Button>
-        </Card>
-        <BoulderList boulders={boulders} loading={state.loadingBoulders} />
-        <br/>
-      </Container>
-    </>
+      <div className="wrapper">
+        <div className="info-card">
+          <Card>
+            <p><b>Detaljer:</b></p>
+            <p><b>Debugging:</b> Position: ({state.geoLocation.latitude}, {state.geoLocation.longitude}), Accuracy: {state.geoLocation.accuracy}m</p>
+            <ActiveFilters />
+            <p> Antall treff: {boulders.length}</p>
+            <Button type="primary" onClick={() => Router.push("/map")}>Vis treff i kart</Button>
+          </Card>
+        </div>
+        <div className="list">
+        {state.loadingBoulders ?
+          <Spin /> : <BoulderList boulders={boulders} />
+        }
+        </div>
+      </div>
+      <style jsx>{`
+        .info-card {
+          margin: 1em 0;
+        }
+        .list {
+          max-height: 100vh;
+        }
+      `}</style>
+    </div>
   )
 }
