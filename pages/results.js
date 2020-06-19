@@ -4,6 +4,7 @@ import Router from "next/router";
 
 import { Button, Card, Spin } from "antd";
 
+import ToTop from '../components/ToTop';
 import ActiveFilters from '../components/ActiveFilters';
 import BoulderList from '../components/BoulderList';
 import StickySearchBar from '../components/StickyBar';
@@ -86,6 +87,7 @@ export default function SearchResults() {
 
   return (
     <div>
+      <ToTop />
       <StickySearchBar />
       <div className="wrapper">
         <div className="info-card">
