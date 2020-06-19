@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 
-import { Container } from '@material-ui/core/';
 import TuneIcon from '@material-ui/icons/Tune';
 import Search from "./Search";
 import { Affix, Button, Space } from "antd"
@@ -18,13 +17,13 @@ export default function StickySearchBar() {
   return (
     <Affix>
       <div style={{background: "#fff", borderBottom: "1px solid #f0f0f0"}}>
-        <Container>
+        <div className="wrapper">
           <Space align="center" size="small" style={{height: "64px"}}>
             <Search />
             <Button size="large" onClick={() => toggleDrawer(true)}><TuneIcon /></Button>
           </Space>
           <FilterDrawer handleToggleDrawer={() => toggleDrawer(false)} visible={openDrawer}/>
-        </Container>
+        </div>
       </div>
     </Affix>
   );

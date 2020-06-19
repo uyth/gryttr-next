@@ -1,4 +1,3 @@
-import { Container } from '@material-ui/core/';
 import { Drawer, Divider } from 'antd';
 
 import AreaCheckboxTree from "./AreaCheckboxTree";
@@ -18,7 +17,7 @@ export default function FilterDrawer({ visible, handleToggleDrawer }) {
       onClose={handleToggleDrawer}
       height={"70vh"}
     >
-      <Container>
+      <div className="wrapper">
         <Divider>Sorter</Divider>
         <SortSelector />
         <Divider>Grad</Divider>
@@ -27,7 +26,7 @@ export default function FilterDrawer({ visible, handleToggleDrawer }) {
         <AreaCheckboxTree />
         <Divider>Avstand</Divider>
         <DistanceSlider />
-      </Container>
+      </div>
     </Drawer>
   )
 };
