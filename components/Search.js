@@ -20,6 +20,23 @@ export default function Search() {
 
   useEffect(() => {
     dispatch({ type: "FETCH_BOULDERS", query: state.query, areas: state.areas });
+    const fetchBoulders = async () => {
+      const options = {
+        url: '/api/boulders',
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json;charset=UTF-8'
+        },
+        params: {
+          areas: state.areas.join(","),
+          query: state.query
+        }
+      };
+      const { data } = await axios(options);
+      dispatch({ type: "UPDATE_BOULDERS", value: data.boulders })
+    }
+    fetchBoulders();
   }, [state.query, state.areas])
 
   useEffect(() => {

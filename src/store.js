@@ -27,21 +27,6 @@ const StateProvider = ({ children }) => {
   const [state, dispatch] = useReducer((state, action) => {
     switch (action.type) {
       case "FETCH_BOULDERS":
-        const options = {
-          url: '/api/boulders',
-          method: 'POST',
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json;charset=UTF-8'
-          },
-          params: {
-            areas: action.areas.join(","),
-            query: action.query
-          }
-        };
-        axios(options).then(response => {
-          dispatch({ type: "UPDATE_BOULDERS", value: response.data.boulders })
-        })
         return { ...state, loadingBoulders: true };
       case "UPDATE_BOULDERS":
         return { ...state, boulders: action.value, loadingBoulders: false }
