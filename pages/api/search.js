@@ -19,7 +19,8 @@ function getBoulderNames(slugs, query) {
 export default (req, res) => {
   let query = req.query.query;
   let slugs = Object.keys(slugToBoulders);
-  let boulders = getBoulderNames(slugs, query);
+  let boulders = getBoulderNames(slugs, query)
+    .slice(0,5);
   res.statusCode = 200
   res.json({ boulders: boulders })
 }
