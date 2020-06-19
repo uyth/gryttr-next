@@ -15,7 +15,8 @@ export default function ActiveFilters () {
   const MAX_DISTANCE = Object.keys(distanceSteps).length;
 
   const handleRemoveArea = (area) => {
-    dispatch({ type: "UPDATE_AREA", value: state.areas.filter(a => a !== area) });
+    let areasAfter = state.areas.filter(a => a !== area);
+    dispatch({ type: "UPDATE_AREA", value: areasAfter });
   }
 
   const handleResetUpperGrade = () => {
@@ -33,7 +34,7 @@ export default function ActiveFilters () {
   return (
     <>
     {state.areas.length ? state.areas.map(area => (
-      <Tag color="orange" closable onClose={() => handleRemoveArea(area)}>{area}</Tag>
+      <Tag key={area} color="orange" closable onClose={() => handleRemoveArea(area)}>{area}</Tag>
     ))
     : null
     }
