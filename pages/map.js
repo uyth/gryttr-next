@@ -69,10 +69,24 @@ export default function MapView() {
 
 
   return (
-    <>
+    <div className="root">
       <StickySearchBar />
       <DynamicComponentWithNoSSR boulders={boulders} />
       <SummaryDrawer boulders={boulders}/>
-    </>
+      <style jsx>{`
+        .root {
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+        }
+      `}</style>
+      <style jsx global>{`
+        .leaflet-container {
+          position: relative!important;
+          width: 100%;
+          flex: 1 1 auto;
+        }
+      `}</style>
+    </div>
   )
 }
