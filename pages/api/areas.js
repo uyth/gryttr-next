@@ -53,7 +53,7 @@ export default (req, res) => {
         },
         {
           "title": "Tennisbanen",
-          "key": "tennisbanenn"
+          "key": "tennisbanen"
         },
       ],
     },

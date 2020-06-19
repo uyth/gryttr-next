@@ -27,7 +27,7 @@ export const slugToBoulders = {
   "skullerud": [...Skullerud["boulders"]],
   "lysloypa": [...Lysloypa["boulders"]],
   "ost-og-vestkanten": [...OstOgVest["boulders"]],
-  "tennisbanne": [...Tennisbanen["boulders"]],
+  "tennisbanen": [...Tennisbanen["boulders"]],
   "haegefjell": [...Haegefjell["boulders"]],
 }
 
