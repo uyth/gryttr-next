@@ -38,6 +38,17 @@ function FunctionalAppWrapper({ Component, pageProps }) {
           * {
             box-sizing: border-box;
           }
+          @media (min-width: 1280px) {
+            .wrapper {
+              width: 1280px;
+            }
+          }
+          .wrapper {
+            width: 100%;
+            padding: 0 24px;
+            margin: 0 auto;
+            max-width: 1280px;
+          }
           .leaflet-container {
             position: relative!important;
             width: 100%;
