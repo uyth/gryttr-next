@@ -2,15 +2,18 @@ import React, { useContext, useState, useEffect, useRef } from 'react';
 import { store } from '../src/store.js';
 
 import { Map, Marker, Popup, TileLayer, ZoomControl, LayersControl, CircleMarker } from "react-leaflet";
+const { BaseLayer } = LayersControl;
 import { LatLng, Icon } from "leaflet";
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
 import { Typography, Row, Col, Tag, Button, Space } from "antd";
 import Head from 'next/head';
-
 const { Title, Text } = Typography;
 
-const { BaseLayer } = LayersControl;
+import SummaryDrawer from '../components/SummaryDrawer';
+import { distanceSteps } from '../src/distanceSteps';
+import { gradeValues } from '../src/gradeValues';
+
 
 const markerRed = new Icon({
   iconUrl: "/markerRed.svg",
@@ -28,13 +31,55 @@ const markerBlue = new Icon({
   shadowAnchor: [14, 24],
 });
 
-export default function BoulderMap({ boulders }) {
+function calculateDistance(lat1, lon1, lat2, lon2, unit) {
+  lat1 = Number(lat1)
+  lon1 = Number(lon1)
+  lat2 = Number(lat2)
+  lon2 = Number(lon2)
+  unit = "K"
+  var radlat1 = Math.PI * lat1 / 180
+  var radlat2 = Math.PI * lat2 / 180
+  var radlon1 = Math.PI * lon1 / 180
+  var radlon2 = Math.PI * lon2 / 180
+  var theta = lon1 - lon2
+  var radtheta = Math.PI * theta / 180
+  var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+  dist = Math.acos(dist)
+  dist = dist * 180 / Math.PI
+  dist = dist * 60 * 1.1515
+  if (unit === "K") { dist = dist * 1.609344 } // km
+  if (unit === "N") { dist = dist * 0.8684 }
+  return dist
+}
+
+function swap(json) {
+  var ret = {};
+  for (var key in json) {
+    ret[json[key]] = key;
+  }
+  return ret;
+}
+
+export default function BoulderMap() {
+  
   const globalState = useContext(store);
   const { state, dispatch } = globalState;
 
   const [boulderInFocus, setFocus] = useState(null);
   const [initialCenter, setInitialCenter] = useState([0.0, 0.0]);
   const [boulderIndex, setBoulderIndex] = useState(null);
+
+  let boulders = state["boulders"]
+  // filter on grade
+  .filter((boulder) => state.gradeValue[0] <= swap(gradeValues)[boulder.grade.title])
+  .filter((boulder) => swap(gradeValues)[boulder.grade.title] <= state.gradeValue[1])
+  // add distanceInKm
+  .reduce((acc, boulder) => {
+    acc.push({...boulder, distanceInKm: calculateDistance(boulder.latitude, boulder.longitude, state.geoLocation.latitude, state.geoLocation.longitude)})
+    return acc;
+  }, [])
+  // filter on radius
+  .filter(boulder => distanceSteps[state.distanceRadiusStep].distanceInKm >= boulder.distanceInKm)
 
   useEffect(() => {
     if ('geolocation' in navigator) {
@@ -47,7 +92,7 @@ export default function BoulderMap({ boulders }) {
   // reset index upon new set of boulders
   useEffect(() => {
     setBoulderIndex(null);
-  }, [boulders])
+  }, [state.boulders])
 
   const handlePrev = () => {
     if (boulderIndex != null && boulderIndex != 0) {
@@ -132,6 +177,7 @@ export default function BoulderMap({ boulders }) {
             <NavigateNextIcon />
           </Button>
         </div>
+        <SummaryDrawer boulders={boulders}/>
       </Map>
     </>
   )
