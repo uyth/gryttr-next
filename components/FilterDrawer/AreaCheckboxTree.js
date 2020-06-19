@@ -36,7 +36,6 @@ export default function CheckboxTree() {
     let childAreas = checkedKeys.filter(area => !parents.includes(area));
     setCheckedAreas(childAreas);
     dispatch({ "type": "UPDATE_AREA", value: childAreas })
-    dispatch({ "type": "FETCH_BOULDERS", query: state.query, areas: childAreas })
   }
 
   const onExpand = expandedKeys => {

@@ -16,8 +16,11 @@ export default function Search() {
 
   useEffect(() => {
     dispatch({ type: "UPDATE_QUERY", value: query });
-    dispatch({ type: "FETCH_BOULDERS", query: query, areas: state.areas });
   }, [query])
+
+  useEffect(() => {
+    dispatch({ type: "FETCH_BOULDERS", query: state.query, areas: state.areas });
+  }, [state.query, state.areas])
 
   useEffect(() => {
     if ('geolocation' in navigator) {
