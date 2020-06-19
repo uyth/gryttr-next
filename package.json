@@ -18,9 +18,9 @@
     "leaflet.markercluster": "^1.4.1",
     "next": "9.4.4",
     "react": "^16.13.1",
+    "react-bottom-scroll-listener": "^4.0.0",
     "react-dom": "^16.13.1",
-    "react-leaflet": "^2.7.0",
-    "react-leaflet-markercluster": "^2.0.0"
+    "react-leaflet": "^2.7.0"
   },
   "devDependencies": {
     "babel-plugin-import": "^1.13.0"
