@@ -3,8 +3,9 @@ import { store } from '../src/store.js';
 
 import { Map, Marker, Popup, TileLayer, ZoomControl, LayersControl, CircleMarker } from "react-leaflet";
 import { LatLng, Icon } from "leaflet";
-
-import { Typography, Row, Col, Tag } from "antd";
+import NavigateNextIcon from '@material-ui/icons/NavigateNext';
+import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
+import { Typography, Row, Col, Tag, Button, Space } from "antd";
 import Head from 'next/head';
 
 const { Title, Text } = Typography;
@@ -33,6 +34,7 @@ export default function BoulderMap({ boulders }) {
 
   const [boulderInFocus, setFocus] = useState(null);
   const [initialCenter, setInitialCenter] = useState([0.0, 0.0]);
+  const [boulderIndex, setBoulderIndex] = useState(null);
 
   useEffect(() => {
     if ('geolocation' in navigator) {
@@ -41,6 +43,25 @@ export default function BoulderMap({ boulders }) {
       });
     }
   }, [])
+
+  // reset index upon new set of boulders
+  useEffect(() => {
+    setBoulderIndex(null);
+  }, [boulders])
+
+  const handlePrev = () => {
+    if (boulderIndex != null && boulderIndex != 0) {
+      setBoulderIndex(boulderIndex-1);
+      setFocus(true);
+    }
+  }
+
+  const handleNext = () => {
+    if (boulderIndex != null && boulderIndex != boulders.length -1 ) {
+      setBoulderIndex(boulderIndex+1);
+      setFocus(true);
+    }
+  }
 
   return (
     <>
@@ -58,22 +79,26 @@ export default function BoulderMap({ boulders }) {
         preferCanvas={true}
       >
         <Marker position={new LatLng(state.geoLocation.latitude, state.geoLocation.longitude)} icon={markerRed}/>
-        {boulders.map(boulder => (
+        {boulders.map((boulder, index) => (
           <CircleMarker
             key={boulder.id}
             center={new LatLng(boulder.latitude, boulder.longitude)}
             radius={10}
-            onclick={() => { setFocus(boulder) }}
+            color={boulderIndex == index ? "#f5222d" : "#096dd9"}
+            onclick={() => {
+              setBoulderIndex(index);
+              setFocus(true);
+            }}
           />
         ))}
-        {boulderInFocus && (
+        {boulderInFocus && boulderIndex != null && (
           <Popup
-            position={new LatLng(boulderInFocus.latitude, boulderInFocus.longitude)}
+            position={new LatLng(boulders[boulderIndex].latitude, boulders[boulderIndex].longitude)}
             onClose={() => {
-              setFocus(null);
+              setFocus(false);
             }}
           >
-            <PopupContent boulder={boulderInFocus}/>
+            <PopupContent boulder={boulders[boulderIndex]}/>
           </Popup>
         )}
         <LayersControl position="topright">
@@ -91,10 +116,27 @@ export default function BoulderMap({ boulders }) {
           </BaseLayer>
         </LayersControl>
         <ZoomControl position="topright" />
+        <div>
+          <Button style={{position: "fixed", zIndex: 1000, bottom: 24, left: 24, borderRadius:24}}
+            type="primary" shape="round" size="large"
+            disabled={boulderIndex==0 || boulderIndex==null}
+            onClick={handlePrev}
+          >
+            <NavigateBeforeIcon />
+          </Button>
+          <Button style={{position: "fixed", zIndex: 1000, bottom: 24, right: 24, borderRadius:24}}
+            type="primary" shape="round" size="large"
+            disabled={boulderIndex==boulders.length-1 || boulderIndex==null}
+            onClick={handleNext}
+          >
+            <NavigateNextIcon />
+          </Button>
+        </div>
       </Map>
     </>
   )
 }
+
 
 const distanceValueText = (distanceInKm) => {
   if (distanceInKm > 10) {
@@ -142,7 +184,6 @@ const PopupContent = ({ boulder }) => {
           display: block;
           width: 300px;
         }
-        
       `}</style>
     </a>
   )
