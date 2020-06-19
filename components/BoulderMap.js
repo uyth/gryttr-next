@@ -4,10 +4,10 @@ import { store } from '../src/store.js';
 import { Map, Marker, Popup, TileLayer, ZoomControl, LayersControl, CircleMarker } from "react-leaflet";
 import { LatLng, Icon } from "leaflet";
 
-import { Typography } from "antd";
+import { Typography, Row, Col, Tag } from "antd";
 import Head from 'next/head';
 
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
 const { BaseLayer } = LayersControl;
 
@@ -73,10 +73,7 @@ export default function BoulderMap({ boulders }) {
               setFocus(null);
             }}
           >
-            <a href={"https://www.gryttr.com/bulder/" + boulderInFocus.id}>
-              <Title level={4}>{boulderInFocus.grade.title} {boulderInFocus.title}</Title>
-              <img height="124" width="124" src={boulderInFocus["image"]["srcset"].split(", ")[1].split(" ")[0]} />
-            </a>
+            <PopupContent boulder={boulderInFocus}/>
           </Popup>
         )}
         <LayersControl position="topright">
@@ -96,5 +93,57 @@ export default function BoulderMap({ boulders }) {
         <ZoomControl position="topright" />
       </Map>
     </>
+  )
+}
+
+const distanceValueText = (distanceInKm) => {
+  if (distanceInKm > 10) {
+    return Number(distanceInKm).toPrecision(3) + " km"
+  } else if (distanceInKm > 1) {
+    return Number(distanceInKm).toPrecision(2) + " km"
+  } else if (distanceInKm > 0.1) {
+    return Number(distanceInKm * 1000).toPrecision(3) + " m"
+  } else if (distanceInKm > 0.01) {
+    return Number(distanceInKm * 1000).toPrecision(2) + " m"
+  } else {
+    return Number(distanceInKm * 1000).toPrecision(1) + " m"
+  }
+}
+
+const PopupContent = ({ boulder }) => {
+  return(
+    <a className="pop-up" href={"https://www.gryttr.com/bulder/" + boulder.id}>
+      <Title level={4}>{boulder.grade.title} {boulder.title}</Title>
+      <Row justify="space-between" style={{ width: "100%" }}>
+        <Col flex="auto">
+          <div>
+            <Tag>Bratthet</Tag>
+            <Tag>Tørke</Tag>
+            <Tag>Fare</Tag>
+          </div>
+          <p>
+            <Text>Finnes i: Samlinger</Text>
+          </p>
+          <Text>{distanceValueText(boulder.distanceInKm)} unna!</Text>
+        </Col>
+        <Col flex="120px">
+          <img
+            data-sizes="auto"
+            data-srcset={boulder.image["srcset"]}
+            className="lazyload"
+            alt={boulder.title}
+            width={120}
+            height={120}
+          />
+        </Col>
+      </Row>
+      <style jsx>{`
+        .pop-up {
+          display: block;
+          width: 300px;
+        }
+        
+      `}</style>
+    </a>
   )
 }
