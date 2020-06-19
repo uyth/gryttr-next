@@ -49,11 +49,6 @@ function FunctionalAppWrapper({ Component, pageProps }) {
             margin: 0 auto;
             max-width: 1280px;
           }
-          .leaflet-container {
-            position: relative!important;
-            width: 100%;
-            height: 100%;
-          }
         `}</style>
       </StateProvider>
     </>

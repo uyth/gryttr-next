@@ -95,6 +95,13 @@ export default function BoulderMap({ boulders }) {
         </LayersControl>
         <ZoomControl position="topright" />
       </Map>
+      <style jsx global>{`
+        .leaflet-container {
+          position: relative!important;
+          width: 100%;
+          height: 100%;
+        }
+      `}</style>
     </>
   )
 }
