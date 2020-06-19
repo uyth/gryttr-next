@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import { store } from '../src/store.js';
 import Router from "next/router";
 
-import { Button, Card, Spin } from "antd";
+import { Button, Card, Skeleton, Divider } from "antd";
 
 import ToTop from '../components/ToTop';
 import ActiveFilters from '../components/ActiveFilters';
@@ -101,7 +101,7 @@ export default function SearchResults() {
         </div>
         <div className="list">
         {state.loadingBoulders ?
-          <Spin /> : <BoulderList boulders={boulders} />
+          <><Skeleton active /><Divider /><Skeleton active /></> : <BoulderList boulders={boulders} />
         }
         </div>
       </div>
