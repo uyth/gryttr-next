@@ -3,8 +3,6 @@ import React, { createContext, useReducer } from 'react';
 import { distanceSteps } from '../src/distanceSteps';
 import { gradeValues } from '../src/gradeValues';
 
-const axios = require('axios').default;
-
 const initialState = {
   sortValue: 0,
   geoLocation: { "latitude": 0, "longitude": 0, "accuracy": 0 },
