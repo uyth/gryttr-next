@@ -1,7 +1,7 @@
 import React from 'react';
 import dynamic from 'next/dynamic'
 
-import { Spin, Row } from "antd";
+import { Spin, Row, Skeleton, Space } from "antd";
 
 import StickySearchBar from '../components/StickyBar';
 
@@ -10,7 +10,16 @@ const Map = dynamic(
   { ssr: false,
     loading: () => (
       <Row justify="space-around" align="middle" style={{height:"100%", width: "100%"}}>
-        <Spin />
+        <Spin size="large"/>
+        <div style={{position: "fixed", zIndex: 1000, bottom: 24, width: "100%" }}>
+          <Row justify="center">
+            <Space>
+              <Skeleton.Button active size="large" shape="circle" />
+              <Skeleton.Button active size="large" shape="round" style={{width: "140px"}}/>
+              <Skeleton.Button active size="large" shape="circle" />
+            </Space>
+          </Row>
+        </div>
       </Row>
     )
   }
