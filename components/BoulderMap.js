@@ -8,10 +8,11 @@ import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
 import { Typography, Row, Col, Tag, Button, Space } from "antd";
 import Head from 'next/head';
-const { Title, Text } = Typography;
+const { Title, Text, Paragraph } = Typography;
 
 import SummaryDrawer from '../components/SummaryDrawer';
 import { distanceSteps } from '../src/distanceSteps';
+import boulders from '../pages/api/boulders.js';
 
 const markerRed = new Icon({
   iconUrl: "/markerRed.svg",
@@ -102,7 +103,7 @@ export default function BoulderMap() {
               setFocus(false);
             }}
           >
-            <PopupContent boulder={boulders[boulderIndex]}/>
+            <PopupContent index={boulderIndex} boulder={boulders[boulderIndex]} size={boulders.length}/>
           </Popup>
         )}
         {state.distanceRadiusStep != Object.keys(distanceSteps).length &&
@@ -161,21 +162,20 @@ const distanceValueText = (distanceInKm) => {
   }
 }
 
-const PopupContent = ({ boulder }) => {
+const PopupContent = ({ boulder, index, size }) => {
   return(
     <a className="pop-up" href={"https://www.gryttr.com/bulder/" + boulder.id}>
-      <Title level={4}>{boulder.grade.title} {boulder.title}</Title>
+      <Title level={4}>{boulder.grade.title} | {boulder.title}</Title>
+      <Paragraph><Text type="secondary">{index+1} av {size}</Text></Paragraph>
       <Row justify="space-between" style={{ width: "100%" }}>
         <Col flex="auto">
-          <div>
+          <Paragraph>
             <Tag>Bratthet</Tag>
             <Tag>Tørke</Tag>
             <Tag>Fare</Tag>
-          </div>
-          <p>
-            <Text>Finnes i: Samlinger</Text>
-          </p>
-          <Text>{distanceValueText(boulder.distanceInKm)} unna!</Text>
+          </Paragraph>
+          <Paragraph>Finnes i (Samlinger)</Paragraph>
+          <Paragraph>{distanceValueText(boulder.distanceInKm)} unna!</Paragraph>
         </Col>
         <Col flex="120px">
           <img

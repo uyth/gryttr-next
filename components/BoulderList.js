@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Tag } from 'antd';
 import { Row, Col } from "antd";
 import { Typography } from "antd";
-const { Title, Text } = Typography;
+const { Title, Text, Paragraph } = Typography;
 import { useBottomScrollListener } from 'react-bottom-scroll-listener';
  
 const distanceValueText = (distanceInKm) => {
@@ -20,22 +20,21 @@ const distanceValueText = (distanceInKm) => {
   }
 }
 
-const BoulderListItem = ({ boulder }) => {
+const BoulderListItem = ({ boulder, index, size }) => {
 
   return (
     <a className="list-item" href={"https://www.gryttr.com/bulder/" + boulder.id}>
-      <Title level={4}>{boulder.grade.title} {boulder.title}</Title>
+      <Title level={4}>{boulder.grade.title} | {boulder.title}</Title>
+  <Paragraph><Text>{index+1} av {size}</Text></Paragraph>
       <Row justify="space-between" style={{ width: "100%" }}>
         <Col flex="auto">
-          <div>
+          <Paragraph>
             <Tag>Bratthet</Tag>
             <Tag>Tørke</Tag>
             <Tag>Fare</Tag>
-          </div>
-          <p>
-            <Text>Finnes i: Samlinger</Text>
-          </p>
-          <Text>{distanceValueText(boulder.distanceInKm)} unna!</Text>
+          </Paragraph>
+          <Paragraph>Finnes i (Samlinger)</Paragraph>
+          <Paragraph>{distanceValueText(boulder.distanceInKm)} unna!</Paragraph>
         </Col>
         <Col flex="120px">
           <img
@@ -79,7 +78,7 @@ export default function BoulderList({ boulders }) {
 
   return (
     <>
-    {boulders.slice(0, viewAmount).map(boulder => <><BoulderListItem key={boulder.id} boulder={boulder} /></>)}
+    {boulders.slice(0, viewAmount).map((boulder, index) => <><BoulderListItem key={boulder.id} index={index} size={boulders.length} boulder={boulder} /></>)}
     </>
   )
 }
