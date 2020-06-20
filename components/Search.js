@@ -46,7 +46,7 @@ export default function Search() {
 
   useEffect(() => {
     if ('geolocation' in navigator) {
-      navigator.geolocation.watchPosition(position => {
+      navigator.geolocation.getCurrentPosition(position => {
         setUserLocation([position.coords.latitude, position.coords.longitude, position.coords.accuracy]);
       });
     }
