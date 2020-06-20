@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect, useRef } from 'react';
 import { store } from '../src/store.js';
 
-import { Map, Marker, Popup, TileLayer, ZoomControl, LayersControl, CircleMarker } from "react-leaflet";
+import { Map, Marker, Popup, TileLayer, ZoomControl, LayersControl, CircleMarker, Circle } from "react-leaflet";
 const { BaseLayer } = LayersControl;
 import { LatLng, Icon } from "leaflet";
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
@@ -146,6 +146,10 @@ export default function BoulderMap() {
             <PopupContent boulder={boulders[boulderIndex]}/>
           </Popup>
         )}
+        {state.distanceRadiusStep != Object.keys(distanceSteps).length &&
+          <Circle color="#262626" center={new LatLng(state.geoLocation.latitude, state.geoLocation.longitude)}
+            radius={distanceSteps[state.distanceRadiusStep].distanceInKm*1000}/>
+        }
         <LayersControl position="topright">
           <BaseLayer checked name="OpenStreetMap Mapnik">
             <TileLayer
