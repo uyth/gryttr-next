@@ -1,5 +1,5 @@
 
-import { XYPlot, XAxis, YAxis, HorizontalGridLines, VerticalBarSeriesCanvas } from 'react-vis';
+import { FlexibleWidthXYPlot, XAxis, YAxis, HorizontalGridLines, VerticalBarSeries } from 'react-vis';
 import { Typography } from "antd";
 const { Title } = Typography;
 
@@ -39,23 +39,24 @@ export default function BoulderChart({ boulders }) {
 
   let data = Object.keys(boulderCountPerGrade).sort().reduce((data, grade) => {
     let countX = boulderCountPerGrade[grade];
-    data.push({"x": grade, "y": countX})
-    console.log(grade, countX)
+    if (countX) {
+      data.push({"x": grade, "y": countX})
+    }
     return data;
   }, [])
 
   return(
     <div className="chart-wrapper">
       <Title level={4}>Fordeling av grader</Title>
-      <XYPlot width={900} height={200} xType="ordinal">
+      <FlexibleWidthXYPlot height={200} xType="ordinal">
         <HorizontalGridLines />
-        <VerticalBarSeriesCanvas
+        <VerticalBarSeries
           color="#1890ff"
           data={data}
         />
         <YAxis />
-        <XAxis />
-      </XYPlot>
+        <XAxis tickLabelAngle={-90} />
+      </FlexibleWidthXYPlot>
       <style jsx>{`
         .chart-wrapper {
           overflow-x: auto;
