@@ -3,6 +3,8 @@ import { store } from '../src/store.js';
 import Router from "next/router";
 
 import { Button, Card, Skeleton, Divider } from "antd";
+import { Typography } from "antd";
+const { Title, Text, Paragraph } = Typography;
 
 import ToTop from '../components/ToTop';
 import ActiveFilters from '../components/ActiveFilters';
@@ -61,11 +63,11 @@ export default function SearchResults() {
       <div className="wrapper">
         <div className="info-card">
           <Card>
-            <p><b>Detaljer:</b></p>
-            <p><b>Debugging:</b> Position: ({state.geoLocation.latitude}, {state.geoLocation.longitude}), Accuracy: {state.geoLocation.accuracy}m</p>
-            <SortSelector />
-            <ActiveFilters />
-            <p> Antall treff: {boulders.length}</p>
+            <Title level={4}>Detaljer</Title>
+            <Paragraph><Text type="secondary">Debugging: Position: ({state.geoLocation.latitude}, {state.geoLocation.longitude}), Accuracy: {state.geoLocation.accuracy}m</Text></Paragraph>
+            <Paragraph><SortSelector /></Paragraph>
+            <Paragraph><ActiveFilters /></Paragraph>
+            <Paragraph>Antall treff: {boulders.length}</Paragraph>
             <Button type="primary" onClick={() => Router.push("/map")}>Vis treff i kart</Button>
           </Card>
         </div>
