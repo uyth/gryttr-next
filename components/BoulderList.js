@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { store } from '../src/store.js';
 
 import { Tag } from 'antd';
 import { Row, Col } from "antd";
@@ -25,7 +26,7 @@ const BoulderListItem = ({ boulder, index, size }) => {
   return (
     <a className="list-item" href={"https://www.gryttr.com/bulder/" + boulder.id}>
       <Title level={4}>{boulder.grade.title} | {boulder.title}</Title>
-  <Paragraph><Text>{index+1} av {size}</Text></Paragraph>
+      <Paragraph><Text>{index+1} av {size}</Text></Paragraph>
       <Row justify="space-between" style={{ width: "100%" }}>
         <Col flex="auto">
           <Paragraph>
@@ -64,6 +65,8 @@ const BoulderListItem = ({ boulder, index, size }) => {
 export default function BoulderList({ boulders }) {
   
   const [viewAmount, setViewAmount] = useState(10);
+  const globalState = useContext(store);
+  const { state } = globalState;
 
   useBottomScrollListener(() => {
     if (viewAmount < boulders.length) {
@@ -74,7 +77,7 @@ export default function BoulderList({ boulders }) {
   // reset view amount
   useEffect(() => {
     setViewAmount(10)
-  }, [boulders])
+  }, [boulders, state.sortValue])
 
   return (
     <>
