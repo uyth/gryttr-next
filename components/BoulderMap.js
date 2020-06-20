@@ -27,7 +27,7 @@ export default function BoulderMap() {
   const { state, dispatch } = globalState;
 
   const [boulderInFocus, setFocus] = useState(null);
-  const [initialCenter, setInitialCenter] = useState([0.0, 0.0]);
+  const [initialCenter, setInitialCenter] = useState([state.geoLocation.latitude, state.geoLocation.longitude]);
   const [boulderIndex, setBoulderIndex] = useState(null);
 
   let boulders = state["boulders"]

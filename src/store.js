@@ -5,7 +5,7 @@ import { gradeValues } from '../src/gradeValues';
 
 const initialState = {
   sortValue: 0,
-  geoLocation: { "latitude": 0, "longitude": 0, "accuracy": 0 },
+  geoLocation: { "latitude": 48.4078, "longitude": 2.5905, "accuracy": 0 },
   boulders: [],
   loadingBoulders: false,
   query: "",
