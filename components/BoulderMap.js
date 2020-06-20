@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect, useRef } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { store } from '../src/store.js';
 
 import { Map, Marker, Popup, TileLayer, ZoomControl, LayersControl, CircleMarker, Circle } from "react-leaflet";
@@ -12,18 +12,9 @@ const { Title, Text, Paragraph } = Typography;
 
 import SummaryDrawer from '../components/SummaryDrawer';
 import { distanceSteps } from '../src/distanceSteps';
-import boulders from '../pages/api/boulders.js';
 
 const markerRed = new Icon({
   iconUrl: "/markerRed.svg",
-  iconSize: [48, 48],
-  shadowUrl: "/markerShadow.svg",
-  shadowSize: [54, 54],
-  shadowAnchor: [14, 24],
-});
-
-const markerBlue = new Icon({
-  iconUrl: "/markerBlue.svg",
   iconSize: [48, 48],
   shadowUrl: "/markerShadow.svg",
   shadowSize: [54, 54],
