@@ -5,6 +5,7 @@ import 'lazysizes';
 import Head from "next/head";
 
 import "antd/dist/antd.css";
+import "react-vis/dist/style.css";
 
 import { Layout } from 'antd';
 const { Header, Footer, Sider, Content } = Layout;

@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import Router from "next/router";
 
+import {XYPlot, XAxis, YAxis, HorizontalGridLines, VerticalBarSeriesCanvas } from 'react-vis';
 import { Button, Drawer, Typography } from "antd";
+const { Title } = Typography;
+
 
 export default function SummaryDrawer({ boulders }) {
 
@@ -39,6 +42,14 @@ export default function SummaryDrawer({ boulders }) {
     return counter;
   }, boulderCountPerGrade)
 
+  let data = Object.keys(boulderCountPerGrade).sort().reduce((data, grade) => {
+    let countX = boulderCountPerGrade[grade];
+    data.push({"x": grade, "y": countX})
+    console.log(grade, countX)
+    return data;
+  }, [])
+
+  console.log(data)
   return (
     <>
       <Button onClick={() => setOpenSummary(true)}
@@ -50,13 +61,33 @@ export default function SummaryDrawer({ boulders }) {
       <Drawer
         visible={openSummary}
         title="Oppsummering av treff"
-        height="50vh"
+        height="70vh"
         placement="bottom"
         onClose={() => setOpenSummary(false)}
       >
-        <Button type="primary" onClick={() => Router.push("/results")}>Vis treff i liste</Button>
-        {Object.keys(boulderCountPerGrade).map(key => <p key={key}>{key}: {boulderCountPerGrade[key]}</p>)}
+        <div className="wrapper">
+          <Button type="primary" onClick={() => Router.push("/results")}>Vis treff i liste</Button>
+          <div className="chart-wrapper">
+            <Title level={4}>Fordeling av grader</Title>
+            <XYPlot width={900} height={200} xType="ordinal">
+              <HorizontalGridLines />
+              <VerticalBarSeriesCanvas
+                color="#1890ff"
+                data={data}
+              />
+              <YAxis />
+              <XAxis />
+            </XYPlot>
+          </div>
+        </div>
       </Drawer>
+      <style jsx>{`
+        .chart-wrapper {
+          overflow-x: auto;
+          overflow-y: hidden;
+          margin-top: 1em;
+        }
+      `}</style>
     </>
   )
 }
