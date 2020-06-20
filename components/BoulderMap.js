@@ -138,7 +138,7 @@ export default function BoulderMap() {
               >
                 <NavigateBeforeIcon />
               </Button>
-              <Button type="primary"
+              <Button type="primary" style={{width: 150}}
                 shape="round" size="large"
                 onClick={handleOpenSummary}
               >Vis treff ({boulders.length})</Button>
