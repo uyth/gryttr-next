@@ -128,7 +128,7 @@ export default function BoulderMap() {
           </BaseLayer>
         </LayersControl>
         <ZoomControl position="topright" />
-        <div style={{position: "absolute", zIndex: 1000, bottom: 24, width: "100%" }}>
+        <div style={{position: "fixed", zIndex: 1000, bottom: 24, width: "100%" }}>
           <Row justify="center">
             <Space>
               <Button
