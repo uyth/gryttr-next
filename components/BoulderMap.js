@@ -141,7 +141,7 @@ export default function BoulderMap() {
             <NavigateNextIcon />
           </Button>
         </div>
-        <SummaryDrawer boulders={boulders}/>
+        <SummaryDrawer/>
       </Map>
     </>
   )
