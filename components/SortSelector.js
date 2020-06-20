@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { store } from '../../src/store.js';
+import { store } from '../src/store.js';
 
 import { Radio } from "antd";
 

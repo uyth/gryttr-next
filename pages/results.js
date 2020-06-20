@@ -9,6 +9,7 @@ import ActiveFilters from '../components/ActiveFilters';
 import BoulderList from '../components/BoulderList';
 import StickySearchBar from '../components/StickyBar';
 import { gradeValues } from '../src/gradeValues';
+import SortSelector from "../components/SortSelector";
 
 
 function swap(json) {
@@ -62,6 +63,7 @@ export default function SearchResults() {
           <Card>
             <p><b>Detaljer:</b></p>
             <p><b>Debugging:</b> Position: ({state.geoLocation.latitude}, {state.geoLocation.longitude}), Accuracy: {state.geoLocation.accuracy}m</p>
+            <SortSelector />
             <ActiveFilters />
             <p> Antall treff: {boulders.length}</p>
             <Button type="primary" onClick={() => Router.push("/map")}>Vis treff i kart</Button>
