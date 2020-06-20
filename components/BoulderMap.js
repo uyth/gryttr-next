@@ -166,15 +166,15 @@ export default function BoulderMap() {
         </LayersControl>
         <ZoomControl position="topright" />
         <div>
-          <Button style={{position: "fixed", zIndex: 1000, bottom: 24, left: 24, borderRadius:24}}
-            type="primary" shape="round" size="large"
+          <Button style={{position: "fixed", zIndex: 1000, bottom: 24, left: 24}}
+            shape="round" size="large"
             disabled={boulderIndex==0 || boulderIndex==null}
             onClick={handlePrev}
           >
             <NavigateBeforeIcon />
           </Button>
-          <Button style={{position: "fixed", zIndex: 1000, bottom: 24, right: 24, borderRadius:24}}
-            type="primary" shape="round" size="large"
+          <Button style={{position: "fixed", zIndex: 1000, bottom: 24, right: 24}}
+            shape="round" size="large"
             disabled={boulderIndex==boulders.length-1 || boulderIndex==null}
             onClick={handleNext}
           >
