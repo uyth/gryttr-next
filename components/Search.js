@@ -30,14 +30,15 @@ export default function Search() {
         },
         params: {
           areas: state.areas.join(","),
-          query: state.query
+          query: state.query,
+          gradeValue: state.gradeValue.join(",")
         }
       };
       const { data } = await axios(options);
       dispatch({ type: "UPDATE_BOULDERS", value: data.boulders })
     }
     fetchBoulders();
-  }, [state.query, state.areas])
+  }, [state.query, state.areas, state.gradeValue])
 
   useEffect(() => {
     if ('geolocation' in navigator) {

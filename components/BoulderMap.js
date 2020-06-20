@@ -12,8 +12,6 @@ const { Title, Text } = Typography;
 
 import SummaryDrawer from '../components/SummaryDrawer';
 import { distanceSteps } from '../src/distanceSteps';
-import { gradeValues } from '../src/gradeValues';
-
 
 const markerRed = new Icon({
   iconUrl: "/markerRed.svg",
@@ -52,14 +50,6 @@ function calculateDistance(lat1, lon1, lat2, lon2, unit) {
   return dist
 }
 
-function swap(json) {
-  var ret = {};
-  for (var key in json) {
-    ret[json[key]] = key;
-  }
-  return ret;
-}
-
 export default function BoulderMap() {
   
   const globalState = useContext(store);
@@ -70,9 +60,6 @@ export default function BoulderMap() {
   const [boulderIndex, setBoulderIndex] = useState(null);
 
   let boulders = state["boulders"]
-  // filter on grade
-  .filter((boulder) => state.gradeValue[0] <= swap(gradeValues)[boulder.grade.title])
-  .filter((boulder) => swap(gradeValues)[boulder.grade.title] <= state.gradeValue[1])
   // add distanceInKm
   .reduce((acc, boulder) => {
     acc.push({...boulder, distanceInKm: calculateDistance(boulder.latitude, boulder.longitude, state.geoLocation.latitude, state.geoLocation.longitude)})
