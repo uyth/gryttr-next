@@ -5,6 +5,8 @@ const axios = require('axios').default;
 
 import { AutoComplete, Input } from 'antd';
 
+import { distanceSteps } from '../src/distanceSteps';
+
 export default function Search() {
 
   const globalState = useContext(store);
@@ -31,14 +33,16 @@ export default function Search() {
         params: {
           areas: state.areas.join(","),
           query: state.query,
-          gradeValue: state.gradeValue.join(",")
+          gradeValue: state.gradeValue.join(","),
+          geoLocation: state.geoLocation.latitude + "," + state.geoLocation.longitude,
+          distanceRadiusInKm: (state.distanceRadiusStep != Object.keys(distanceSteps).length) ? distanceSteps[state.distanceRadiusStep].distanceInKm : null
         }
       };
       const { data } = await axios(options);
       dispatch({ type: "UPDATE_BOULDERS", value: data.boulders })
     }
     fetchBoulders();
-  }, [state.query, state.areas, state.gradeValue])
+  }, [state.query, state.areas, state.gradeValue, state.geoLocation, state.distanceRadiusStep])
 
   useEffect(() => {
     if ('geolocation' in navigator) {
