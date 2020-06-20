@@ -30,6 +30,8 @@ export default function BoulderMap() {
   const [initialCenter, setInitialCenter] = useState([state.geoLocation.latitude, state.geoLocation.longitude]);
   const [boulderIndex, setBoulderIndex] = useState(null);
 
+  const [openSummary, setOpenSummary] = useState(false);
+
   let boulders = state["boulders"]
 
   useEffect(() => {
@@ -57,6 +59,14 @@ export default function BoulderMap() {
       setBoulderIndex(boulderIndex+1);
       setFocus(true);
     }
+  }
+
+  const handleOpenSummary = () => {
+    setOpenSummary(true);
+  }
+
+  const handleCloseSummary = () => {
+    setOpenSummary(false);
   }
 
   return (
@@ -118,24 +128,32 @@ export default function BoulderMap() {
           </BaseLayer>
         </LayersControl>
         <ZoomControl position="topright" />
-        <div>
-          <Button style={{position: "fixed", zIndex: 1000, bottom: 24, left: 24}}
-            shape="round" size="large"
-            disabled={boulderIndex==0 || boulderIndex==null}
-            onClick={handlePrev}
-          >
-            <NavigateBeforeIcon />
-          </Button>
-          <Button style={{position: "fixed", zIndex: 1000, bottom: 24, right: 24}}
-            shape="round" size="large"
-            disabled={boulderIndex==boulders.length-1 || boulderIndex==null}
-            onClick={handleNext}
-          >
-            <NavigateNextIcon />
-          </Button>
+        <div style={{position: "absolute", zIndex: 1000, bottom: 24, width: "100%" }}>
+          <Row justify="center">
+            <Space>
+              <Button
+                shape="circle" size="large"
+                disabled={boulderIndex==0 || boulderIndex==null}
+                onClick={handlePrev}
+              >
+                <NavigateBeforeIcon />
+              </Button>
+              <Button type="primary"
+                shape="round" size="large"
+                onClick={handleOpenSummary}
+              >Vis treff ({boulders.length})</Button>
+              <Button
+                shape="circle" size="large"
+                disabled={boulderIndex==boulders.length-1 || boulderIndex==null}
+                onClick={handleNext}
+              >
+                <NavigateNextIcon />
+              </Button>
+            </Space>
+          </Row>
         </div>
-        <SummaryDrawer/>
       </Map>
+      <SummaryDrawer open={openSummary} handleClose={handleCloseSummary}/>
     </>
   )
 }
