@@ -83,7 +83,6 @@ export default function BoulderMap() {
         maxZoom={19}
         preferCanvas={true}
       >
-        <Marker position={new LatLng(state.geoLocation.latitude, state.geoLocation.longitude)} icon={markerRed}/>
         {boulders.map((boulder, index) => (
           <CircleMarker
             key={boulder.id}
@@ -106,6 +105,9 @@ export default function BoulderMap() {
             <PopupContent index={boulderIndex} boulder={boulders[boulderIndex]} size={boulders.length}/>
           </Popup>
         )}
+        {state.distanceRadiusStep == Object.keys(distanceSteps).length &&
+          <Marker position={new LatLng(state.geoLocation.latitude, state.geoLocation.longitude)} icon={markerRed}/>
+        }
         {state.distanceRadiusStep != Object.keys(distanceSteps).length &&
           <Circle color="#262626" center={new LatLng(state.geoLocation.latitude, state.geoLocation.longitude)}
             radius={distanceSteps[state.distanceRadiusStep].distanceInKm*1000}/>
