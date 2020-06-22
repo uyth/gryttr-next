@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import Router from "next/router";
 import { store } from '../src/store.js';
-const axios = require('axios').default;
+import { fetchBoulders, fetchAutocomplete } from "../src/searchUtils";
 
 import { AutoComplete, Input } from 'antd';
 
@@ -22,10 +22,10 @@ export default function Search() {
 
   useEffect(() => {
     dispatch({ type: "FETCH_BOULDERS", query: state.query, areas: state.areas });
-    const fetchBoulders = async () => {
+    async function prepareSearch() {
       const options = {
         url: '/api/boulders',
-        method: 'POST',
+        method: 'GET',
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json;charset=UTF-8'
@@ -36,13 +36,16 @@ export default function Search() {
           gradeValue: state.gradeValue.join(","),
           geoLocation: state.geoLocation.latitude + "," + state.geoLocation.longitude,
           distanceRadiusInKm: (state.distanceRadiusStep != Object.keys(distanceSteps).length) ? distanceSteps[state.distanceRadiusStep].distanceInKm : null
-        }
+        },
       };
-      const { data } = await axios(options);
-      dispatch({ type: "UPDATE_BOULDERS", value: data.boulders })
+      return await fetchBoulders(options);  
     }
-    fetchBoulders();
-  }, [state.query, state.areas, state.gradeValue, state.geoLocation, state.distanceRadiusStep])
+    prepareSearch().then(data => {
+      if (data) {
+        dispatch({ type: "UPDATE_BOULDERS", value: data.boulders });
+      }
+    })
+    }, [state.query, state.areas, state.gradeValue, state.geoLocation, state.distanceRadiusStep])
 
   useEffect(() => {
     if ('geolocation' in navigator) {
@@ -73,8 +76,10 @@ export default function Search() {
         query: query
       }
     };
-    axios(options).then(response => {
-      setOptions(response.data.boulders);
+    await fetchAutocomplete(options).then(data => {
+      if (data) {
+        setOptions(data.boulders);
+      }
     })
   }
 

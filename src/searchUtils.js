@@ -35,3 +35,35 @@ export function boulderMatchesQuery(title, query) {
   let r = new RegExp(`\\b${query}`, "i")
   return r.exec(title);
 }
+
+import axios from 'axios';
+
+const makeRequestCreator = () => {
+  let source;
+
+  return async (options) => {
+    // Check if we made a request
+    if(source){
+      // Cancel the previous request before making a new request
+      source.cancel()
+    }
+    // Create a new CancelToken
+    source = axios.CancelToken.source()
+    try{
+      const result = await axios({...options, cancelToken: source.token})
+      return result.data
+    } catch(error) {
+        if(axios.isCancel(error)) {
+          // Handle if request was cancelled
+          console.log('Request canceled', error.message);
+        } else {
+          // Handle usual errors
+          console.log('Something went wrong: ', error.message)
+        }
+    }
+  }
+}
+
+export const fetchBoulders = makeRequestCreator()
+
+export const fetchAutocomplete = makeRequestCreator()
