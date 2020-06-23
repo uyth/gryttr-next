@@ -35,7 +35,7 @@ export default function CheckboxTree() {
     setCheckedAreas(childAreas);
     dispatch({ "type": "UPDATE_AREA", value: childAreas })
   }
-  
+
   const onCheck = checkedAreas => {
     console.log('onCheck', checkedAreas);
     commitChanges(checkedAreas);
@@ -53,6 +53,7 @@ export default function CheckboxTree() {
         checkable
         selectable={false}
         defaultExpandAll={true}
+        defaultExpandParent={true}
         onCheck={onCheck}
         checkedKeys={checkedAreas}
         onSelect={onSelect}
