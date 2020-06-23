@@ -32,8 +32,18 @@ export const slugToBoulders = {
 }
 
 export function boulderMatchesQuery(title, query) {
+  title = replaceSpecialCharacters(title);
+  query = replaceSpecialCharacters(query);
   let r = new RegExp(`\\b${query}`, "i")
   return r.exec(title);
+}
+
+function replaceSpecialCharacters(word) {
+  var specialCharacterMap = { Æ:"AE", Ø:"OE", Å:"AA", Ä: "AA", Ö: "OE", æ:"ae", ø:"oe", å:"aa", ä:"aa", ö:"oe" };
+  word = word.replace(/æ|ø|å|Æ|Ø|Å/gi, function(matched){
+    return specialCharacterMap[matched];
+  });
+  return word;
 }
 
 import axios from 'axios';
