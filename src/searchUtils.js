@@ -49,7 +49,7 @@ export function boulderMatchesQuery(title, query) {
 
 function replaceSpecialCharacters(word) {
   var specialCharacterMap = { Æ:"AE", Ø:"OE", Å:"AA", Ä: "AA", Ö: "OE", æ:"ae", ø:"oe", å:"aa", ä:"aa", ö:"oe" };
-  word = word.replace(/æ|ø|å|Æ|Ø|Å/gi, function(matched){
+  word = word.replace(/æ|ø|å|ö|ä|Æ|Ø|Å|Ö|Ä/gi, function(matched){
     return specialCharacterMap[matched];
   });
   return word;
