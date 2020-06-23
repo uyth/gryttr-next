@@ -7,8 +7,9 @@ export default function Home() {
   return (
     <div className="wrapper">
       <br />
+      <SearchCard />
       <Space direction="vertical">
-        <SearchCard />
+        <br />
         <Button type="primary" size="large" onClick={() => Router.push("/map")}>Klikk her for å gå til kartvisning</Button>
         <Button type="primary" size="large" onClick={() => Router.push("/results")}>Klikk her for å gå til listevisning</Button>
       </Space>
