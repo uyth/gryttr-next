@@ -4,6 +4,7 @@ import { distanceSteps } from '../src/distanceSteps';
 import { gradeValues } from '../src/gradeValues';
 
 const initialState = {
+  country: "nor",
   sortValue: 0,
   geoLocation: { "latitude": 48.4078, "longitude": 2.5905, "accuracy": 0 },
   boulders: [],
@@ -40,6 +41,8 @@ const StateProvider = ({ children }) => {
         return { ...state, distanceRadiusStep: action.value };
       case "UPDATE_SORT_VALUE":
         return { ...state, sortValue: action.value };
+      case "UPDATE_COUNTRY":
+        return { ...state, country: action.value }
       default:
         throw new Error();
     };
