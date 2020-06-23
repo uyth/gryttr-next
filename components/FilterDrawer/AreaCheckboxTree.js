@@ -10,9 +10,7 @@ export default function CheckboxTree() {
   const { state, dispatch } = globalState;
 
   const [treeData, setTreeData] = useState([]);
-  const [expandedKeys, setExpandedKeys] = useState([]);
   const [checkedAreas, setCheckedAreas] = useState(state.areas);
-  const [autoExpandParent, setAutoExpandParent] = useState(true);
   
   useEffect(() => {
     const fetchAreas = async () => {
@@ -37,12 +35,7 @@ export default function CheckboxTree() {
     setCheckedAreas(childAreas);
     dispatch({ "type": "UPDATE_AREA", value: childAreas })
   }
-
-  const onExpand = expandedKeys => {
-    setExpandedKeys(expandedKeys);
-    setAutoExpandParent(false);
-  };
-
+  
   const onCheck = checkedAreas => {
     console.log('onCheck', checkedAreas);
     commitChanges(checkedAreas);
@@ -59,9 +52,7 @@ export default function CheckboxTree() {
       <Tree
         checkable
         selectable={false}
-        onExpand={onExpand}
-        expandedKeys={expandedKeys}
-        autoExpandParent={autoExpandParent}
+        defaultExpandAll={true}
         onCheck={onCheck}
         checkedKeys={checkedAreas}
         onSelect={onSelect}
