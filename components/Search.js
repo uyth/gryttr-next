@@ -74,7 +74,8 @@ export default function Search() {
         'Content-Type': 'application/json;charset=UTF-8'
       },
       params: {
-        query: query
+        query: query,
+        country: state.country,
       }
     };
     await fetchAutocomplete(options).then(data => {
