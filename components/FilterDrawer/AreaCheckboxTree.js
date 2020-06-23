@@ -16,13 +16,13 @@ export default function CheckboxTree() {
   
   useEffect(() => {
     const fetchAreas = async () => {
-      const result = await axios("api/areas");
+      const result = await axios("api/areas?country="+state.country);
       if (result.data["areas"]) {
         setTreeData(result.data.areas);
       }
     };
     fetchAreas();
-  }, [])
+  }, [state.country])
 
   useEffect(() => {
     setCheckedAreas(state.areas);

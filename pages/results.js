@@ -12,7 +12,7 @@ import BoulderList from '../components/BoulderList';
 import StickySearchBar from '../components/StickyBar';
 import { gradeValues } from '../src/gradeValues';
 import SortSelector from "../components/SortSelector";
-
+import CountrySelector from "../components/CountrySelector";
 
 function swap(json) {
   var ret = {};
@@ -65,6 +65,7 @@ export default function SearchResults() {
           <Card>
             <Title level={4}>Detaljer</Title>
             <Paragraph><Text type="secondary">Debugging: Position: ({state.geoLocation.latitude}, {state.geoLocation.longitude}), Accuracy: {state.geoLocation.accuracy}m</Text></Paragraph>
+            <Paragraph><CountrySelector /></Paragraph>
             <Paragraph><SortSelector /></Paragraph>
             <Paragraph><ActiveFilters /></Paragraph>
             <Paragraph>Antall treff: {boulders.length}</Paragraph>

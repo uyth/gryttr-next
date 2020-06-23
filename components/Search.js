@@ -31,6 +31,7 @@ export default function Search() {
           'Content-Type': 'application/json;charset=UTF-8'
         },
         params: {
+          country: state.country,
           areas: state.areas.join(","),
           query: state.query,
           gradeValue: state.gradeValue.join(","),
@@ -45,7 +46,7 @@ export default function Search() {
         dispatch({ type: "UPDATE_BOULDERS", value: data.boulders });
       }
     })
-    }, [state.query, state.areas, state.gradeValue, state.geoLocation, state.distanceRadiusStep])
+    }, [state.query, state.areas, state.gradeValue, state.geoLocation, state.distanceRadiusStep, state.country])
 
   useEffect(() => {
     if ('geolocation' in navigator) {
