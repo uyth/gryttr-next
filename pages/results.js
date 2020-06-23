@@ -63,8 +63,7 @@ export default function SearchResults() {
       <div className="wrapper">
         <div className="info-card">
           <Card>
-            <Title level={4}>Detaljer</Title>
-            <Paragraph><Text type="secondary">Debugging: Position: ({state.geoLocation.latitude}, {state.geoLocation.longitude}), Accuracy: {state.geoLocation.accuracy}m</Text></Paragraph>
+            {/* <Paragraph><Text type="secondary">Debugging: Position: ({state.geoLocation.latitude}, {state.geoLocation.longitude}), Accuracy: {state.geoLocation.accuracy}m</Text></Paragraph> */}
             <Paragraph><CountrySelector /></Paragraph>
             <Paragraph><SortSelector /></Paragraph>
             <Paragraph><ActiveFilters /></Paragraph>
