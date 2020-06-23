@@ -16,19 +16,28 @@ import Skullerud from './ostmarka/skullerud.json';
 // nissedal
 import Haegefjell from './nissedal/haegefjell.json';
 
+import Blocksamlingen from "./haller/blocksamlingen.json";
+import Mellberg from "./haller/mellberg.json";
+
 export const slugToBoulders = {
-  "boler": [...Boler["boulders"]],
-  "gronmo": [...Gronmo["boulders"]],
-  "katteputten": [...Katteputten["boulders"]],
-  "nedre-hellerud": [...NedreHellerud["boulders"]],
-  "ovre-hellerud": [...OvreHellerud["boulders"]],
-  "ostmarksetra": [...Ostmarksetra["boulders"]],
-  "skoyenputten": [...Skoyenputten["boulders"]],
-  "skullerud": [...Skullerud["boulders"]],
-  "lysloypa": [...Lysloypa["boulders"]],
-  "ost-og-vestkanten": [...OstOgVest["boulders"]],
-  "tennisbanen": [...Tennisbanen["boulders"]],
-  "haegefjell": [...Haegefjell["boulders"]],
+  nor: {
+    "boler": [...Boler["boulders"]],
+    "gronmo": [...Gronmo["boulders"]],
+    "katteputten": [...Katteputten["boulders"]],
+    "nedre-hellerud": [...NedreHellerud["boulders"]],
+    "ovre-hellerud": [...OvreHellerud["boulders"]],
+    "ostmarksetra": [...Ostmarksetra["boulders"]],
+    "skoyenputten": [...Skoyenputten["boulders"]],
+    "skullerud": [...Skullerud["boulders"]],
+    "lysloypa": [...Lysloypa["boulders"]],
+    "ost-og-vestkanten": [...OstOgVest["boulders"]],
+    "tennisbanen": [...Tennisbanen["boulders"]],
+    "haegefjell": [...Haegefjell["boulders"]],
+  },
+  swe: {
+    "blocksamlingen": [...Blocksamlingen["boulders"]],
+    "mellberg": [...Mellberg["boulders"]],
+  }
 }
 
 export function boulderMatchesQuery(title, query) {

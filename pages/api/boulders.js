@@ -10,10 +10,10 @@ function swap(json) {
   return ret;
 }
 
-function getBouldersFromSlugs(slugs, query, gradeValue) {
+function getBouldersFromSlugs(country, slugs, query, gradeValue) {
   return slugs.reduce((acc, slug) => {
-    if (slugToBoulders[slug]) {
-      let boulders = slugToBoulders[slug]
+    if (slugToBoulders[country][slug]) {
+      let boulders = slugToBoulders[country][slug]
         .filter(boulder => query ? boulderMatchesQuery(boulder.title, query) : true)
         .filter((boulder) => Number(gradeValue[0]) <= swap(gradeValues)[boulder.grade.title])
         .filter((boulder) => swap(gradeValues)[boulder.grade.title] <= Number(gradeValue[1]))
@@ -45,6 +45,7 @@ function calculateDistance(lat1, lon1, lat2, lon2, unit) {
 }
 
 export default (req, res) => {
+  let country = req.query.country;
   let slugs = req.query.areas.split(",");
   let gradeValue = req.query.gradeValue.split(",");
   let query = req.query.query;
@@ -53,9 +54,9 @@ export default (req, res) => {
   let boulders = []
   if (slugs.length > 0) {
     if (slugs[0] == "") {
-      slugs = Object.keys(slugToBoulders);
+      slugs = Object.keys(slugToBoulders[country]);
     }
-    boulders = getBouldersFromSlugs(slugs, query, gradeValue);
+    boulders = getBouldersFromSlugs(country, slugs, query, gradeValue);
     if (geoLocation) {
       boulders = boulders
       // add distanceInKm

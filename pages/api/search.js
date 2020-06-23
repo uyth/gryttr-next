@@ -1,9 +1,9 @@
 import { slugToBoulders, boulderMatchesQuery } from "../../src/searchUtils";
 
-function getBoulderNames(slugs, query) {
+function getBoulderNames(country, slugs, query) {
   return slugs.reduce((acc, slug) => {
-    if (slugToBoulders[slug]) {
-      let boulders = slugToBoulders[slug];
+    if (slugToBoulders[country][slug]) {
+      let boulders = slugToBoulders[country][slug];
       boulders = boulders.reduce((acc, boulder) => {
         if (boulderMatchesQuery(boulder.title, query)) {
           acc.push({value: boulder.title})
@@ -18,10 +18,11 @@ function getBoulderNames(slugs, query) {
 
 export default (req, res) => {
   let query = req.query.query;
+  let country = req.query.country;
   let boulders = [];
   if (query) {
-    let slugs = Object.keys(slugToBoulders);
-    boulders = getBoulderNames(slugs, query)
+    let slugs = Object.keys(slugToBoulders[country]);
+    boulders = getBoulderNames(country, slugs, query)
       .slice(0,5); 
   }
   res.statusCode = 200
