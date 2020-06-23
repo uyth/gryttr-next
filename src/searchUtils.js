@@ -40,19 +40,13 @@ export const slugToBoulders = {
   }
 }
 
+var latinize = require('latinize');
+
 export function boulderMatchesQuery(title, query) {
-  title = replaceSpecialCharacters(title);
-  query = replaceSpecialCharacters(query);
+  title = latinize(title);
+  query = latinize(query);
   let r = new RegExp(`\\b${query}`, "i")
   return r.exec(title);
-}
-
-function replaceSpecialCharacters(word) {
-  var specialCharacterMap = { Æ:"AE", Ø:"OE", Å:"AA", Ä: "AA", Ö: "OE", æ:"ae", ø:"oe", å:"aa", ä:"aa", ö:"oe" };
-  word = word.replace(/æ|ø|å|ö|ä|Æ|Ø|Å|Ö|Ä/gi, function(matched){
-    return specialCharacterMap[matched];
-  });
-  return word;
 }
 
 import axios from 'axios';
